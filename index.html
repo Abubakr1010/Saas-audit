@@ -27,7 +27,7 @@
     .btn-finish:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     #resultBox { display: none; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
-    .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
+    .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; text-align: left; }
     .badge { display: inline-block; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-top: 10px; }
     .badge-red { background: #fee2e2; color: #dc2626; }
     .badge-green { background: #ecfdf5; color: #059669; }
@@ -44,14 +44,14 @@
     <div id="resultBox"></div>
     <form id="auditForm">
       <h1>UX Intelligence Audit</h1>
-      <p class="welcome-text">Complete the audit to get your score. We'll send a copy of the results to your inbox.</p>
+      <p class="welcome-text">Complete the audit to get your instant UX score and conversion analysis.</p>
       
       <label>Name</label><input type="text" id="userName" name="name" placeholder="Full Name" required>
       <label>Email</label><input type="email" id="userEmail" name="email" placeholder="email@company.com" required>
       <label>Website</label><input type="text" id="userWebsite" name="website" placeholder="https://..." required>
 
       <div id="questionsContainer"></div>
-      <button type="submit" id="submitBtn" class="btn-finish">Analyze & Email Results</button>
+      <button type="submit" id="submitBtn" class="btn-finish">Analyze & Get Results</button>
     </form>
   </div>
 
@@ -80,25 +80,38 @@ quizData.forEach((item, idx) => {
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; btn.innerText = "Analyzing Patterns...";
+  btn.disabled = true; btn.innerText = "Analyzing UX Patterns...";
 
   let totalPoints = 0; 
-  let breakdown = "";
+  let breakdownHTML = "";
+  let emailBreakdown = "";
+
   quizData.forEach((item, idx) => {
     const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
     totalPoints += val;
-    breakdown += `${item.q.split(':')[0]}: ${val === 2 ? 'Optimal' : (val === 1 ? 'Needs Improvement' : 'Critical')}\n`;
+    
+    let isGood = val === 2;
+    let badgeClass = isGood ? 'badge-green' : 'badge-red';
+    let statusLabel = isGood ? 'PASS' : 'ISSUE';
+    let feedback = isGood ? item.good : item.tip;
+
+    breakdownHTML += `
+      <div class="result-item">
+        <div style="font-weight:800; font-size:14px;">${item.q.split(':')[0]}</div>
+        <div class="badge ${badgeClass}">${statusLabel}: ${feedback}</div>
+      </div>`;
+    
+    emailBreakdown += `${item.q.split(':')[0]}: ${statusLabel} (${feedback})\n`;
   });
 
   const ScoreStr = Math.round((totalPoints / 14) * 100) + "%";
 
-  // Data for Formspree
   const payload = {
     name: document.getElementById("userName").value,
     email: document.getElementById("userEmail").value,
     website: document.getElementById("userWebsite").value,
     score: ScoreStr,
-    audit_details: breakdown
+    audit_details: emailBreakdown
   };
 
   fetch("https://formspree.io/f/mojngjqg", {
@@ -111,11 +124,13 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     rBox.style.display = "block";
     rBox.innerHTML = `
       <div class="score-banner">
-        <h2 style="font-size:52px; margin:0;">${ScoreStr}</h2>
-        <p>Results Sent to Your Inbox!</p>
+        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">Analysis Complete</p>
+        <h2 style="font-size:52px; margin:0; letter-spacing:-2px;">${ScoreStr}</h2>
+        <p style="font-size:13px; margin-top:10px; opacity:0.8;">A detailed report has been sent to your inbox.</p>
       </div>
+      ${breakdownHTML}
       <div style="text-align:center; margin-top:40px;">
-          <a href="https://abubakriqbal.design" target="_blank" style="display:block; background:#000; color:#fff; padding:20px; border-radius:14px; text-decoration:none; font-weight:800;">Scale Your Product →</a>
+          <a href="https://abubakriqbal.design" target="_blank" style="display:block; background:#000; color:#fff; padding:20px; border-radius:14px; text-decoration:none; font-weight:800;">Get Your Custom Strategy →</a>
           <button onclick="location.reload()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer; text-decoration:underline; font-size:12px; font-weight:600;">↺ Retake Audit</button>
       </div>
     `;
@@ -123,7 +138,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
   }).catch(() => {
     alert("Connection Error. Please try again.");
     btn.disabled = false;
-    btn.innerText = "Analyze & Email Results";
+    btn.innerText = "Analyze & Get Results";
   });
 });
 </script>
