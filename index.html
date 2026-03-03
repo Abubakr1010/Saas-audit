@@ -80,7 +80,7 @@ quizData.forEach((item, idx) => {
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; btn.innerText = "Analyzing UX Patterns...";
+  btn.disabled = true; btn.innerText = "Analyzing Patterns...";
 
   let totalPoints = 0; 
   let breakdownHTML = "";
@@ -126,7 +126,6 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
       <div class="score-banner">
         <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">Analysis Complete</p>
         <h2 style="font-size:52px; margin:0; letter-spacing:-2px;">${ScoreStr}</h2>
-        <p style="font-size:13px; margin-top:10px; opacity:0.8;">A detailed report has been sent to your inbox.</p>
       </div>
       ${breakdownHTML}
       <div style="text-align:center; margin-top:40px;">
