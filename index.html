@@ -3,83 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>audit.ai | UX & Conversion Intelligence</title>
+  <title>audit.ai | UX Intelligence</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { 
-      --primary-green: #d1ff82; 
-      --bg-gray: #f3f4f6; 
-      --text-main: #000000; 
-      --text-muted: #6b7280; 
-      --error-red: #fee2e2; 
-      --error-text: #dc2626; 
-      --success-green: #ecfdf5; 
-      --success-text: #059669; 
-    }
+    :root { --primary-green: #d1ff82; --bg-gray: #f3f4f6; --text-main: #000; --text-muted: #6b7280; }
     * { box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-gray); color: var(--text-main); display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
+    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-gray); display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
     nav, .form-card { width: 100%; max-width: 760px; }
-    
     nav { background: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 100px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-    .brand { font-weight: 800; font-size: 15px; text-transform: lowercase; letter-spacing: -0.5px; }
-    .brand span { color: var(--text-muted); font-weight: 400; }
-    
-    .cta-nav-btn { background: #000; color: #fff; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-size: 12px; font-weight: 700; transition: 0.3s; }
-    .cta-nav-btn:hover { background: var(--primary-green); color: #000; }
-
+    .brand { font-weight: 800; font-size: 15px; text-transform: lowercase; }
     .form-card { background: white; padding: 50px; border-radius: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
     h1 { font-size: 34px; font-weight: 800; margin: 0 0 8px 0; letter-spacing: -1.5px; }
-    .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 45px; line-height: 1.5; }
-    
-    label.field-label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
-    input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
-    input:focus { border-color: #000; box-shadow: 0 0 0 2px rgba(0,0,0,0.05); }
-
+    .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 45px; }
+    label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); }
+    input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; }
     .question-block { margin-bottom: 35px; }
-    .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; color: #111; letter-spacing: -0.3px; }
-    .q-num { color: var(--text-muted); font-weight: 500; margin-right: 8px; font-size: 13px; }
-
-    .option-pill { display: block; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; margin-bottom: 8px; transition: 0.2s; font-size: 13.5px; font-weight: 500; color: #4b5563; }
+    .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; }
+    .option-pill { display: block; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; margin-bottom: 8px; font-size: 13.5px; transition: 0.2s; }
     input[type="radio"]:checked + .option-pill { background: #000; color: #fff; border-color: #000; }
     input[type="radio"] { display: none; }
-
-    .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; transition: 0.2s; }
-    .btn-finish:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-    .btn-finish:disabled { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; transform: none; }
-
-    /* RESULTS SCREEN */
+    .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; }
     #resultBox { display: none; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
     .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
     .badge { display: inline-block; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-top: 10px; }
-    .badge-red { background: var(--error-red); color: var(--error-text); }
-    .badge-green { background: var(--success-green); color: var(--success-text); }
-    
-    .final-cta { display: flex; align-items:center; justify-content:center; text-decoration: none; background: #000; color: #fff; height: 56px; border-radius: 14px; font-weight: 800; font-size: 15px; margin-top: 25px; }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .badge-green { background: #ecfdf5; color: #059669; }
   </style>
 </head>
 <body>
 
   <nav>
     <div class="brand">audit<span>.ai</span></div>
-    <a href="https://abubakriqbal.design" target="_blank" class="cta-nav-btn">Scale Your Product →</a>
+    <a href="https://abubakriqbal.design" target="_blank" style="background:#000; color:#fff; padding:12px 24px; border-radius:50px; text-decoration:none; font-size:12px; font-weight:700;">Scale Your Product →</a>
   </nav>
 
   <div class="form-card">
     <div id="resultBox"></div>
-    
     <form id="auditForm">
       <h1>UX Intelligence Audit</h1>
-      <p class="welcome-text">Generate a data-driven analysis of your SaaS or Website conversion potential.</p>
+      <p class="welcome-text">Generate a data-driven analysis of your conversion potential.</p>
       
-      <div class="user-fields">
-        <label class="field-label">Name</label>
-        <input type="text" id="userName" placeholder="Full Name" required>
-        <label class="field-label">Delivery Email</label>
-        <input type="email" id="userEmail" placeholder="Work Email" required>
-        <label class="field-label">Website / Framer or Figma Url</label>
-        <input type="text" id="userWebsite" placeholder="https://example.com" required>
-      </div>
+      <label>Name</label><input type="text" id="userName" placeholder="Full Name" required>
+      <label>Email</label><input type="email" id="userEmail" placeholder="Work Email" required>
+      <label>Website</label><input type="text" id="userWebsite" placeholder="https://yourlink.com" required>
 
       <div id="questionsContainer"></div>
       <button type="submit" id="submitBtn" class="btn-finish">Analyze My Platform</button>
@@ -90,18 +57,18 @@
 const quizData = [
   { q: "Value Proposition: Is the core benefit clear within 5 seconds?", tip: "Simplify hero copy to address one specific pain point.", good: "Messaging is sharp and unique." },
   { q: "Time-to-Value: How quickly can a user achieve a 'win'?", tip: "Streamline the flow to deliver value with minimal setup.", good: "Excellent time-to-value efficiency." },
-  { q: "Information Architecture: Is navigation intuitive?", tip: "Keep primary header lean and move secondary links to footer.", good: "Navigation is focused and clear." },
-  { q: "Mobile Responsiveness: Is the platform optimized for touch?", tip: "Fix layout shifts and ensure touch targets are 48px.", good: "Superior mobile experience." },
-  { q: "Organic Discoverability: Does the site show for core searches?", tip: "Optimize metadata and landing pages for keywords.", good: "Strong search presence." },
-  { q: "Visual Authority: Does the design build immediate trust?", tip: "Harmonize your color palette and typography.", good: "Premium visual identity." },
-  { q: "Conversion Friction: Is the primary CTA obvious?", tip: "Utilize high-contrast colors and persistent placement.", good: "Optimal conversion path." }
+  { q: "Information Architecture: Is navigation intuitive?", tip: "Group secondary links in footer to keep the header lean.", good: "Navigation is focused and clear." },
+  { q: "Mobile Responsiveness: Is the platform optimized for touch?", tip: "Fix layout shifts and increase touch target sizes.", good: "Superior mobile experience." },
+  { q: "Organic Discoverability: Is the site SEO optimized?", tip: "Optimize metadata and target high-intent keywords.", good: "Strong search presence." },
+  { q: "Visual Authority: Does the design build trust?", tip: "Harmonize color/typography for a professional finish.", good: "Premium visual identity." },
+  { q: "Conversion Friction: Is the primary CTA obvious?", tip: "Use high-contrast colors for main action buttons.", good: "Optimal conversion path." }
 ];
 
 const container = document.getElementById("questionsContainer");
 quizData.forEach((item, idx) => {
   container.innerHTML += `
     <div class="question-block">
-      <span class="question-text"><span class="q-num">0${idx+1}.</span> ${item.q}</span>
+      <span class="question-text">${idx+1}. ${item.q}</span>
       <label><input type="radio" name="q${idx}" value="2" required><div class="option-pill">Optimal</div></label>
       <label><input type="radio" name="q${idx}" value="1"><div class="option-pill">Needs Improvement</div></label>
       <label><input type="radio" name="q${idx}" value="0"><div class="option-pill">Critical Friction</div></label>
@@ -110,19 +77,15 @@ quizData.forEach((item, idx) => {
 
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true;
-  btn.innerText = "Analyzing UX Patterns...";
+  btn.disabled = true; btn.innerText = "Analyzing UX Patterns...";
 
-  let totalPoints = 0;
-  let resultHTML = "";
-
+  let totalPoints = 0; let resultHTML = "";
   quizData.forEach((item, idx) => {
     const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
     totalPoints += val;
     let badge = (val === 2) ? `<div class="badge badge-green">PASS: ${item.good}</div>` : `<div class="badge badge-red">ISSUE: ${item.tip}</div>`;
-    resultHTML += `<div class="result-item"><div style="font-weight:800; font-size:14px;">0${idx+1}. ${item.q.split(':')[0]}</div>${badge}</div>`;
+    resultHTML += `<div class="result-item"><div style="font-weight:800; font-size:14px;">${item.q.split(':')[0]}</div>${badge}</div>`;
   });
 
   const ScoreStr = Math.round((totalPoints / 14) * 100) + "%";
@@ -130,42 +93,31 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
   const Email = document.getElementById("userEmail").value;
   const Website = document.getElementById("userWebsite").value;
 
-  // --- TRIPLE SUBMISSION LOGIC ---
+  // The Submission URL
   const tallyURL = `https://tally.so/r/yPlrzp?Name=${encodeURIComponent(Name)}&Email=${encodeURIComponent(Email)}&Website=${encodeURIComponent(Website)}&Score=${encodeURIComponent(ScoreStr)}`;
   
-  // 1. Beacon (Modern, background-safe)
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(tallyURL);
-  }
-
-  // 2. Image Ping (Classic fallback)
-  const ping = new Image();
-  ping.src = tallyURL;
-
-  // 3. Hidden Iframe (Forced load)
-  const ifrm = document.createElement("iframe");
-  ifrm.src = tallyURL;
-  ifrm.style.width = "1px"; ifrm.style.height = "1px"; ifrm.style.opacity = "0.01"; ifrm.style.position = "absolute";
+  // Triple-Submission (Beacon + Image + Iframe)
+  if (navigator.sendBeacon) { navigator.sendBeacon(tallyURL); }
+  const imgPing = new Image(); imgPing.src = tallyURL;
+  const ifrm = document.createElement("iframe"); 
+  ifrm.src = tallyURL; ifrm.style.width="1px"; ifrm.style.height="1px"; ifrm.style.position="absolute"; ifrm.style.opacity="0.01";
   document.body.appendChild(ifrm);
 
-  // --- DELAY BEFORE DISPLAY ---
+  // 5-SECOND DELAY to ensure Tally processes and Notion row is created
   setTimeout(() => {
     document.getElementById("auditForm").style.display = "none";
     const rBox = document.getElementById("resultBox");
     rBox.style.display = "block";
     rBox.innerHTML = `
-      <div class="score-banner">
-        <h2 style="margin:0; font-size:52px; letter-spacing:-2.5px;">${ScoreStr}</h2>
-        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1.5px; margin-top:8px;">Performance Index</p>
-      </div>
+      <div class="score-banner"><h2 style="font-size:52px; margin:0;">${ScoreStr}</h2><p>Performance Index</p></div>
       ${resultHTML}
-      <div style="margin-top:40px; text-align:center; padding:30px; border:2px dashed #eee; border-radius:20px;">
-          <a href="https://abubakriqbal.design" target="_blank" class="final-cta">Get Your Custom Strategy →</a>
-          <button onclick="location.reload()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer; font-size:12px; font-weight:600; text-decoration:underline;">↺ Retake Audit</button>
+      <div style="margin-top:40px; text-align:center;">
+          <a href="https://abubakriqbal.design" target="_blank" style="display:block; background:#000; color:#fff; padding:20px; border-radius:14px; text-decoration:none; font-weight:800;">Get Your Strategy →</a>
+          <button onclick="location.reload()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer; text-decoration:underline;">↺ Retake Audit</button>
       </div>
     `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 3500); 
+  }, 5000); 
 });
 </script>
 </body>
