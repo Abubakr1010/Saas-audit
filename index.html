@@ -21,7 +21,7 @@
       display: flex; flex-direction: column; align-items: center; padding: 40px 20px;
     }
 
-    /* NAV & FORM WIDTH (800px) */
+    /* ALIGNED WIDTH (800px) */
     nav, .form-card { width: 100%; max-width: 800px; }
 
     nav {
@@ -46,7 +46,7 @@
     h1 { font-size: 42px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -2px; }
     .welcome-text { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; }
 
-    /* INPUTS AT 48px */
+    /* INPUTS */
     .input-group { margin-bottom: 25px; }
     label.field-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
 
@@ -56,7 +56,7 @@
     }
     input:focus { border-color: var(--text-main); }
 
-    /* QUESTIONS */
+    /* QUIZ STYLING */
     .question-block { margin: 45px 0; }
     .question-text { font-weight: 700; font-size: 18px; margin-bottom: 20px; display: block; }
     .options-row { display: flex; gap: 15px; }
@@ -70,17 +70,14 @@
 
     .btn-finish {
       width: 100%; height: 56px; background: var(--primary-green); border: none;
-      border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.2s;
+      border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer;
     }
-    .btn-finish:hover { transform: translateY(-2px); }
-    .btn-finish:disabled { background: #eee; cursor: not-allowed; transform: none; }
+    .btn-finish:disabled { background: #eee; cursor: not-allowed; }
 
     #resultBox { 
       display: none; background: #000; color: var(--primary-green); 
       padding: 20px; border-radius: 20px; margin-bottom: 30px; text-align: center; font-weight: 800;
-      animation: slideDown 0.4s ease;
     }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -152,14 +149,14 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     if(selected && parseInt(selected.value) === item.answer) score++;
   });
 
-  // Prepare data for Google Script
+  // URLSearchParams is the "Golden Key" for Google Sheets compatibility
   const formData = new URLSearchParams();
   formData.append('name', document.getElementById("userName").value || "N/A");
   formData.append('email', document.getElementById("userEmail").value);
   formData.append('website', document.getElementById("userWebsite").value || "N/A");
   formData.append('score', score);
 
-  // Deployment URL
+  // YOUR UPDATED VERSION 3 URL
   const scriptURL = "https://script.google.com/macros/s/AKfycbyNrqFmejk1AvmUPzRH0sQtUEA5phJqwfu3Rg9wxiIm1OvxVdgd4FpO8kV0Dvg411WP/exec";
 
   fetch(scriptURL, {
