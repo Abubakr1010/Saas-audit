@@ -26,7 +26,7 @@
       padding: 40px 20px;
     }
 
-    /* NAV BAR & FORM WIDTH (800px) */
+    /* NAV BAR & FORM WIDTH ALIGNED TO 800px */
     nav, .form-card {
       width: 100%;
       max-width: 800px;
@@ -50,20 +50,20 @@
       text-transform: uppercase;
     }
 
-    .know-more-btn {
-      background: #eee;
-      color: #000;
+    .chat-btn {
+      background: #000;
+      color: #fff;
       padding: 10px 24px;
       border-radius: 50px;
       text-decoration: none;
       font-size: 13px;
       font-weight: 600;
-      transition: 0.3s;
+      transition: all 0.3s ease;
     }
 
-    .know-more-btn:hover {
-      background: var(--text-main);
-      color: white;
+    .chat-btn:hover {
+      background: var(--primary-green);
+      color: #000;
     }
 
     /* FORM CARD */
@@ -77,7 +77,7 @@
     h1 { 
       font-size: 42px; 
       font-weight: 800; 
-      margin: 0 0 15px 0; 
+      margin: 0 0 10px 0; 
       letter-spacing: -2px; 
       line-height: 1;
     }
@@ -85,41 +85,39 @@
     .welcome-text { 
       font-size: 16px; 
       color: var(--text-muted); 
-      margin-bottom: 45px; 
-      line-height: 1.5; 
-      max-width: 500px;
+      margin-bottom: 40px; 
+      line-height: 1.5;
     }
 
     /* INPUTS AT 48px HEIGHT */
     .input-group { margin-bottom: 25px; }
     label.field-label { 
       display: block; 
-      font-size: 14px; 
+      font-size: 13px; 
       font-weight: 700; 
-      margin-bottom: 10px; 
+      margin-bottom: 8px; 
     }
 
     input[type="email"], input[type="text"] {
       width: 100%;
       height: 48px;
       padding: 0 18px;
-      border: 1.5px solid #ebebeb;
+      border: 1.5px solid #eee;
       border-radius: 12px;
       font-size: 15px;
       outline: none;
       transition: 0.2s;
     }
 
-    input:focus { border-color: var(--text-main); background: #fafafa; }
+    input:focus { border-color: var(--text-main); }
 
-    /* QUESTIONS & ANSWERS SPACING */
-    .question-block { margin-top: 50px; margin-bottom: 50px; }
+    /* QUESTIONS SPACING */
+    .question-block { margin: 45px 0; }
     .question-text { 
       font-weight: 700; 
       font-size: 18px; 
-      margin-bottom: 25px; 
+      margin-bottom: 20px; 
       display: block; 
-      letter-spacing: -0.5px;
     }
 
     .options-row { display: flex; gap: 15px; }
@@ -128,7 +126,7 @@
       flex: 1;
       text-align: center;
       padding: 14px;
-      border: 1.5px solid #ebebeb;
+      border: 1.5px solid #eee;
       border-radius: 50px;
       font-size: 15px;
       cursor: pointer;
@@ -138,7 +136,6 @@
 
     input[type="radio"]:checked + .option-pill {
       background: var(--text-main);
-      border-color: var(--text-main);
       color: white;
       font-weight: 600;
     }
@@ -155,10 +152,10 @@
       font-weight: 800;
       font-size: 16px;
       cursor: pointer;
-      transition: transform 0.2s, background 0.2s;
+      transition: 0.2s;
     }
 
-    .btn-finish:hover { transform: translateY(-3px); filter: brightness(1.05); }
+    .btn-finish:hover { transform: translateY(-3px); }
     .btn-finish:disabled { background: #eee; cursor: not-allowed; transform: none; }
 
     /* RESULT SCORE BOX */
@@ -185,19 +182,19 @@
 
   <nav>
     <div class="brand">SaaS Audit</div>
-    <a href="https://abubakriqbal.design" target="_blank" class="know-more-btn">Know More</a>
+    <a href="https://abubakriqbal.design" target="_blank" class="chat-btn">Chat with Professionals</a>
   </nav>
 
   <div class="form-card">
     <div id="resultBox"></div>
 
     <h1>Role Discovery</h1>
-    <p class="welcome-text">Complete this audit to unlock personalized recommendations and salary benchmarks.</p>
+    <p class="welcome-text">Complete this audit to unlock personalized recommendations.</p>
 
     <form id="auditForm">
       <div class="input-group">
-        <label class="field-label">Full Name</label>
-        <input type="text" id="userName" placeholder="e.g. Alex Graham">
+        <label class="field-label">Full Name (Optional)</label>
+        <input type="text" id="userName" placeholder="Alex Graham">
       </div>
 
       <div class="input-group">
@@ -206,8 +203,8 @@
       </div>
 
       <div class="input-group">
-        <label class="field-label">Website</label>
-        <input type="text" id="userWebsite" placeholder="https://yourwebsite.com">
+        <label class="field-label">Website / Figma or Framer link (Optional)</label>
+        <input type="text" id="userWebsite" placeholder="https://figma.com/file/...">
       </div>
 
       <div id="questionsContainer"></div>
@@ -217,18 +214,15 @@
   </div>
 
 <script>
-// Quiz data with Yes/No questions
 const quizData = [
   {q: "Are you targeting leadership roles?", options: ["Yes", "No"], answer: 0},
   {q: "Is remote work a dealbreaker for you?", options: ["Yes", "No"], answer: 0},
-  {q: "Are you open to contract or freelance work?", options: ["Yes", "No"], answer: 1}
+  {q: "Are you open to freelance work?", options: ["Yes", "No"], answer: 1}
 ];
 
 const container = document.getElementById("questionsContainer");
-
-// Render the questions
 quizData.forEach((item, idx) => {
-  let html = `
+  container.innerHTML += `
     <div class="question-block">
       <span class="question-text">${item.q}</span>
       <div class="options-row">
@@ -240,54 +234,43 @@ quizData.forEach((item, idx) => {
         `).join('')}
       </div>
     </div>`;
-  container.innerHTML += html;
 });
 
-// Form Submission Logic
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  
   const btn = document.getElementById("submitBtn");
-  btn.innerText = "Sending to Sheet...";
+  btn.innerText = "Processing...";
   btn.disabled = true;
 
   let score = 0;
   quizData.forEach((item, idx) => {
     const selected = document.querySelector(`input[name='q${idx}']:checked`);
-    if(selected && parseInt(selected.value) === item.answer) {
-      score += 1;
-    }
+    if(selected && parseInt(selected.value) === item.answer) score++;
   });
 
   const payload = {
-    name: document.getElementById("userName").value || "Not provided",
+    name: document.getElementById("userName").value || "N/A",
     email: document.getElementById("userEmail").value,
-    website: document.getElementById("userWebsite").value || "None",
+    website: document.getElementById("userWebsite").value || "N/A",
     score: score
   };
 
-  // Your Google Apps Script URL
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyNrqFmejk1AvmUPzRH0sQtUEA5phJqwfu3Rg9wxiIm1OvxVdgd4FpO8kV0Dvg411WP/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyT9fqnj6kvRGDAgbd9BM7M0jMD7VEUOqijVxEQCOVT3m-If1o02oIsnEJosUhxu7tT/exec";
 
   fetch(scriptURL, {
     method: "POST",
-    mode: 'no-cors', // Important for Google Scripts
+    mode: 'no-cors',
     body: JSON.stringify(payload)
-  })
-  .then(() => {
-    // Show Animation & Result
-    const resultBox = document.getElementById("resultBox");
-    resultBox.innerHTML = `🎉 Audit Complete! Your Score: ${score} / ${quizData.length}`;
-    resultBox.style.display = "block";
-    
+  }).then(() => {
+    document.getElementById("resultBox").style.display = "block";
+    document.getElementById("resultBox").innerHTML = `🎉 Audit Sent! Score: ${score} / 3`;
     btn.innerText = "Audit Submitted";
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  })
-  .catch(err => {
-    console.error('Error!', err.message);
-    alert("There was an error submitting. Please try again.");
-    btn.innerText = "Finish Audit";
+  }).catch(err => {
+    console.error(err);
+    alert("Error saving data.");
     btn.disabled = false;
+    btn.innerText = "Finish Audit";
   });
 });
 </script>
