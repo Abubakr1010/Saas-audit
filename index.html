@@ -3,178 +3,185 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaaS Product Design Audit</title>
+  <title>audit.ai | UX & Conversion Intelligence</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
+    :root { 
       --primary-green: #d1ff82; 
-      --bg-gray: #f3f4f6;
-      --text-main: #000000;
-      --text-muted: #6b7280;
+      --bg-gray: #f3f4f6; 
+      --text-main: #000000; 
+      --text-muted: #6b7280; 
+      --error-red: #fee2e2; 
+      --error-text: #dc2626; 
+      --success-green: #ecfdf5; 
+      --success-text: #059669; 
     }
-
     * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-gray); color: var(--text-main); display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
+    nav, .form-card { width: 100%; max-width: 760px; }
     
-    body { 
-      font-family: 'Inter', sans-serif; 
-      margin: 0; background: var(--bg-gray); color: var(--text-main);
-      display: flex; flex-direction: column; align-items: center; padding: 40px 20px;
-    }
-
-    nav, .form-card { width: 100%; max-width: 800px; }
-
-    nav {
-      background: white; padding: 12px 40px; display: flex; justify-content: space-between;
-      align-items: center; border-radius: 60px; margin-bottom: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-
-    .brand { font-weight: 800; font-size: 16px; text-transform: uppercase; }
-
-    .chat-btn {
-      background: #000; color: #fff; padding: 10px 24px; border-radius: 50px;
-      text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s;
-    }
-    .chat-btn:hover { background: var(--primary-green); color: #000; }
-
-    .form-card {
-      background: white; padding: 60px; border-radius: 40px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.04);
-    }
-
-    h1 { font-size: 42px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -2px; }
-    .welcome-text { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; }
-
-    .input-group { margin-bottom: 25px; }
-    label.field-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
-
-    input[type="email"], input[type="text"] {
-      width: 100%; height: 48px; padding: 0 18px; border: 1.5px solid #eee;
-      border-radius: 12px; font-size: 15px; outline: none; transition: 0.2s;
-    }
-    input:focus { border-color: var(--text-main); }
-
-    .question-block { margin: 45px 0; }
-    .question-text { font-weight: 700; font-size: 18px; margin-bottom: 20px; display: block; }
-    .options-row { display: flex; gap: 15px; }
+    nav { background: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 100px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+    .brand { font-weight: 800; font-size: 15px; text-transform: lowercase; letter-spacing: -0.5px; color: #000; }
+    .brand span { color: var(--text-muted); font-weight: 400; }
     
-    .option-pill {
-      flex: 1; text-align: center; padding: 14px; border: 1.5px solid #eee;
-      border-radius: 50px; cursor: pointer; transition: 0.2s; font-weight: 500;
-    }
-    input[type="radio"]:checked + .option-pill { background: #000; color: #fff; }
+    .cta-nav-btn { background: #000; color: #fff; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-size: 12px; font-weight: 700; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .cta-nav-btn:hover { background: var(--primary-green); color: #000; transform: scale(1.05); }
+
+    .form-card { background: white; padding: 50px; border-radius: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
+    h1 { font-size: 34px; font-weight: 800; margin: 0 0 8px 0; letter-spacing: -1.5px; }
+    .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 45px; line-height: 1.5; }
+    
+    label.field-label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+    input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
+    input:focus { border-color: #000; }
+
+    .question-block { margin-bottom: 35px; }
+    .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; letter-spacing: -0.3px; color: #111; }
+    .q-num { color: var(--text-muted); font-weight: 500; margin-right: 8px; font-size: 13px; }
+
+    .option-pill { display: block; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; margin-bottom: 8px; transition: 0.2s; font-size: 13.5px; font-weight: 500; color: #4b5563; }
+    input[type="radio"]:checked + .option-pill { background: #000; color: #fff; border-color: #000; }
     input[type="radio"] { display: none; }
 
-    .btn-finish {
-      width: 100%; height: 56px; background: var(--primary-green); border: none;
-      border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer;
-    }
-    .btn-finish:disabled { background: #eee; cursor: not-allowed; }
+    .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; transition: 0.2s; }
 
-    #resultBox { 
-      display: none; background: #000; color: var(--primary-green); 
-      padding: 20px; border-radius: 20px; margin-bottom: 30px; text-align: center; font-weight: 800;
-    }
+    /* RESULTS SCREEN */
+    .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
+    .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
+    .result-q-title { font-weight: 800; font-size: 14px; margin-bottom: 6px; letter-spacing: -0.2px; }
+    .badge { display: inline-block; padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600; margin-top: 10px; line-height: 1.5; }
+    .badge-red { background: var(--error-red); color: var(--error-text); }
+    .badge-green { background: var(--success-green); color: var(--success-text); }
+    .u-line { text-decoration: underline; font-weight: 700; }
+
+    .final-cta-box { margin-top: 40px; text-align: center; padding: 30px; border: 2px dashed #eee; border-radius: 20px; }
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="brand">SaaS Audit</div>
-    <a href="https://abubakriqbal.design" target="_blank" class="chat-btn">Chat with Professionals</a>
+    <div class="brand">audit<span>.ai</span></div>
+    <a href="https://abubakriqbal.design" target="_blank" class="cta-nav-btn">Scale Your Product →</a>
   </nav>
 
   <div class="form-card">
-    <div id="resultBox"></div>
-    <h1>Role Discovery</h1>
-    <p class="welcome-text">Complete this audit to unlock personalized recommendations.</p>
-
+    <div id="resultBox" style="display:none;"></div>
     <form id="auditForm">
+      <h1>UX Intelligence Audit</h1>
+      <p class="welcome-text">Generate a data-driven analysis of your SaaS / Website conversion potential.</p>
+      
       <div class="input-group">
-        <label class="field-label">Full Name (Optional)</label>
-        <input type="text" id="userName" placeholder="Alex Graham">
-      </div>
-
-      <div class="input-group">
-        <label class="field-label">Work Email Address *</label>
-        <input type="email" id="userEmail" placeholder="name@company.com" required>
-      </div>
-
-      <div class="input-group">
-        <label class="field-label">Website / Figma or Framer link (Optional)</label>
-        <input type="text" id="userWebsite" placeholder="https://figma.com/file/...">
+        <label class="field-label">Name</label>
+        <input type="text" id="userName" placeholder="Full Name" required>
+        <label class="field-label">Delivery Email</label>
+        <input type="email" id="userEmail" placeholder="Work Email" required>
+        <label class="field-label">Website / Framer or Figma Url</label>
+        <input type="text" id="userWebsite" placeholder="https://example.com or Figma link">
       </div>
 
       <div id="questionsContainer"></div>
-
-      <button type="submit" id="submitBtn" class="btn-finish">Finish Audit</button>
+      <button type="submit" class="btn-finish">Generate My Analysis</button>
     </form>
   </div>
 
 <script>
-// Quiz Configuration
 const quizData = [
-  {q: "Are you targeting leadership roles?", options: ["Yes", "No"], answer: 0},
-  {q: "Is remote work a dealbreaker for you?", options: ["Yes", "No"], answer: 0},
-  {q: "Are you open to freelance work?", options: ["Yes", "No"], answer: 1}
+  { 
+    q: "Value Proposition: Is the core benefit clear within 5 seconds?", 
+    tip: "Messaging is fragmented. <br><span class='u-line'>Suggestion:</span> Simplify hero copy to address one specific pain point for the visitor.", 
+    good: "Messaging is sharp. Users gain an immediate understanding of your unique value." 
+  },
+  { 
+    q: "Time-to-Value: How quickly can a user achieve a 'win' or find key data?", 
+    tip: "Onboarding/Pathing friction identified. <br><span class='u-line'>Suggestion:</span> Streamline the initial flow to deliver value with minimal setup.", 
+    good: "Excellent efficiency. You are delivering value to the user with minimal time investment." 
+  },
+  { 
+    q: "Information Architecture: Is navigation intuitive and prioritized?", 
+    tip: "Menu structure is cluttered. <br><span class='u-line'>Suggestion:</span> Group secondary links in a footer and keep the primary header lean.", 
+    good: "Navigation is focused. Users can navigate your platform without cognitive load." 
+  },
+  { 
+    q: "Mobile Responsiveness: Is the platform optimized for touch interaction?", 
+    tip: "Mobile usability gaps detected. <br><span class='u-line'>Suggestion:</span> Fix layout shifts and ensure touch targets meet the 48px minimum standard.", 
+    good: "Superior mobile experience. The UI adapts seamlessly to different viewport sizes." 
+  },
+  { 
+    q: "Organic Discoverability: Does the site show for core solution searches?", 
+    tip: "Low SEO visibility. <br><span class='u-line'>Suggestion:</span> Optimize metadata and create landing pages for specific high-intent keywords.", 
+    good: "Strong search presence. You are successfully attracting relevant organic traffic." 
+  },
+  { 
+    q: "Visual Authority: Does the design build immediate brand trust?", 
+    tip: "Visual consistency is lacking. <br><span class='u-line'>Suggestion:</span> Harmonize your color palette and typography for a more professional finish.", 
+    good: "Premium visual identity. Your design standards establish high trust and authority." 
+  },
+  { 
+    q: "Conversion Friction: Is the primary call-to-action (CTA) obvious?", 
+    tip: "CTA hierarchy is weak. <br><span class='u-line'>Suggestion:</span> Utilize high-contrast colors and persistent placement for your main action buttons.", 
+    good: "Optimal conversion path. Your primary actions are clear and well-positioned." 
+  }
 ];
 
-// Build Quiz Questions
 const container = document.getElementById("questionsContainer");
 quizData.forEach((item, idx) => {
   container.innerHTML += `
     <div class="question-block">
-      <span class="question-text">${item.q}</span>
-      <div class="options-row">
-        ${item.options.map((opt, i) => `
-          <label style="flex:1">
-            <input type="radio" name="q${idx}" value="${i}" required>
-            <div class="option-pill">${opt}</div>
-          </label>
-        `).join('')}
-      </div>
+      <span class="question-text"><span class="q-num">0${idx+1}.</span> ${item.q}</span>
+      <label><input type="radio" name="q${idx}" value="2" required><div class="option-pill">Optimal</div></label>
+      <label><input type="radio" name="q${idx}" value="1"><div class="option-pill">Needs Improvement</div></label>
+      <label><input type="radio" name="q${idx}" value="0"><div class="option-pill">Critical Friction</div></label>
     </div>`;
 });
 
-// Form Submission Logic
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  const btn = document.getElementById("submitBtn");
-  btn.innerText = "Processing...";
-  btn.disabled = true;
+  let totalPoints = 0;
+  let resultHTML = "";
 
-  // 1. Calculate Score
-  let score = 0;
   quizData.forEach((item, idx) => {
-    const selected = document.querySelector(`input[name='q${idx}']:checked`);
-    if(selected && parseInt(selected.value) === item.answer) score++;
+    const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
+    totalPoints += val;
+    let badge = (val === 2) ? `<div class="badge badge-green">PASS: ${item.good}</div>` : `<div class="badge badge-red">ISSUE: ${item.tip}</div>`;
+
+    resultHTML += `
+      <div class="result-item">
+        <div class="result-q-title">0${idx+1}. ${item.q.split(':')[0]}</div>
+        ${badge}
+      </div>`;
   });
 
-  // 2. Prepare the data
-  const name = encodeURIComponent(document.getElementById("userName").value || "N/A");
-  const email = encodeURIComponent(document.getElementById("userEmail").value);
-  const website = encodeURIComponent(document.getElementById("userWebsite").value || "N/A");
-  const finalScore = encodeURIComponent(score);
+  const finalScoreNum = Math.round((totalPoints / 14) * 100);
+  const ScoreStr = finalScoreNum + "%";
 
-  // 3. YOUR NEW DEPLOYMENT URL (Must be the URL from the 'doGet' script)
-  const baseURL = "https://script.google.com/macros/s/AKfycbyNrqFmejk1AvmUPzRH0sQtUEA5phJqwfu3Rg9wxiIm1OvxVdgd4FpO8kV0Dvg411WP/exec";
-  
-  // 4. Construct the Magic Link
-  const finalURL = `${baseURL}?name=${name}&email=${email}&website=${website}&score=${finalScore}`;
+  const Name = document.getElementById("userName").value;
+  const Email = document.getElementById("userEmail").value;
+  const Website = document.getElementById("userWebsite").value || "Not specified";
 
-  // 5. Send it via "Hidden Image" fetch (Bulletproof method)
-  const logger = new Image();
-  logger.src = finalURL;
+  // SEND TO TALLY
+  const tallyURL = `https://tally.so/r/yPlrzp?Name=${encodeURIComponent(Name)}&Email=${encodeURIComponent(Email)}&Website=${encodeURIComponent(Website)}&Score=${encodeURIComponent(ScoreStr)}`;
+  const ifrm = document.createElement("iframe");
+  ifrm.src = tallyURL;
+  ifrm.style.display = "none";
+  document.body.appendChild(ifrm);
 
-  // 6. UI Update (Success Message)
-  setTimeout(() => {
-    document.getElementById("resultBox").style.display = "block";
-    document.getElementById("resultBox").innerHTML = `🎉 Audit Sent! Score: ${score} / 3`;
-    btn.innerText = "Audit Submitted";
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 1000);
+  // SHOW RESULTS
+  document.getElementById("auditForm").style.display = "none";
+  const rBox = document.getElementById("resultBox");
+  rBox.style.display = "block";
+  rBox.innerHTML = `
+    <div class="score-banner">
+      <h2 style="margin:0; font-size:52px; letter-spacing:-2.5px;">${ScoreStr}</h2>
+      <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1.5px; margin-top:8px;">Performance Index</p>
+    </div>
+    ${resultHTML}
+    <div class="final-cta-box">
+        <p style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Ready to optimize these friction points?</p>
+        <a href="https://abubakriqbal.design" target="_blank" class="btn-finish" style="display: flex; align-items:center; justify-content:center; text-decoration: none; background: #000; color: #fff;">Book a Strategy Call</a>
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 </script>
-
 </body>
 </html>
