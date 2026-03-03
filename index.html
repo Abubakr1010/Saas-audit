@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SaaS Product Design Audit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-green: #d1ff82; 
       --bg-gray: #f3f4f6;
       --text-main: #000000;
       --text-muted: #6b7280;
-      --error-red: #ff4d4d;
     }
 
     * { box-sizing: border-box; }
     
     body { 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+      font-family: 'Publica Sans', 'Inter', sans-serif; 
       margin: 0; 
       background: var(--bg-gray); 
       color: var(--text-main);
@@ -26,166 +26,200 @@
       padding: 40px 20px;
     }
 
-    /* CIRCULAR NAV BAR */
+    /* WIDER NAV BAR */
     nav {
       background: white;
-      padding: 10px 25px;
+      padding: 12px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-radius: 50px;
+      border-radius: 60px;
       width: 100%;
-      max-width: 450px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      max-width: 800px; /* Broader nav */
+      margin-bottom: 40px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
-    .brand { font-weight: 800; font-size: 13px; text-transform: uppercase; }
-    nav a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+    .brand { font-weight: 800; font-size: 16px; letter-spacing: -0.5px; }
+
+    /* FLIP BUTTON */
+    .flip-btn {
+      perspective: 1000px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      height: 40px;
+      width: 120px;
+    }
+
+    .flip-btn-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-btn:hover .flip-btn-inner {
+      transform: rotateX(180deg);
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .flip-front { background: #eee; color: #000; }
+    .flip-back { 
+      background: var(--text-main); 
+      color: white; 
+      transform: rotateX(180deg); 
+    }
 
     /* FORM CARD */
     .form-card {
       background: white;
       width: 100%;
       max-width: 550px;
-      padding: 45px;
-      border-radius: 35px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+      padding: 50px;
+      border-radius: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.04);
       position: relative;
-      overflow: hidden;
     }
 
-    /* SCORE BANNER */
     #resultBox {
       display: none;
       background: var(--text-main);
       color: var(--primary-green);
-      padding: 15px;
-      border-radius: 15px;
-      margin-bottom: 25px;
+      padding: 18px;
+      border-radius: 20px;
+      margin-bottom: 30px;
       text-align: center;
       font-weight: 800;
-      font-size: 18px;
-      animation: slideDown 0.5s ease;
+      font-size: 20px;
+      animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     @keyframes slideDown {
-      from { transform: translateY(-20px); opacity: 0; }
+      from { transform: translateY(-30px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
-    .step-indicator { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
-    
-    .progress-bar { height: 6px; background: #eee; width: 100%; border-radius: 10px; margin-bottom: 35px; }
-    .progress-fill { width: 40%; height: 100%; background: var(--primary-green); border-radius: 10px; transition: width 1s ease; }
-
-    h1 { font-size: 30px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -0.5px; }
-    .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 35px; line-height: 1.4; }
+    h1 { font-size: 36px; font-weight: 800; margin: 0 0 15px 0; letter-spacing: -1.5px; line-height: 1; }
+    .welcome-text { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.5; }
 
     /* INPUTS */
-    .input-group { margin-bottom: 30px; }
-    label.field-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .input-group { margin-bottom: 35px; }
+    label.field-label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
 
     input[type="email"] {
       width: 100%;
-      padding: 16px;
-      border: 1.5px solid #e5e7eb;
-      border-radius: 14px;
-      font-size: 15px;
+      padding: 18px;
+      border: 1.5px solid #ebebeb;
+      border-radius: 16px;
+      font-size: 16px;
       outline: none;
+      transition: 0.2s;
     }
-    input[type="email"]:focus { border-color: var(--text-main); }
-    input:invalid { border-color: #eee; }
+    input[type="email"]:focus { border-color: var(--text-main); background: #fafafa; }
 
     /* QUESTION STYLING */
-    .question-block { margin-bottom: 40px; }
-    .question-text { font-weight: 700; font-size: 16px; margin-bottom: 20px; display: block; }
+    .question-block { margin-bottom: 45px; }
+    .question-text { font-weight: 700; font-size: 18px; margin-bottom: 25px; display: block; letter-spacing: -0.5px; }
 
-    .options-row { display: flex; gap: 12px; }
+    .options-row { display: flex; gap: 15px; }
     
     .option-pill {
       flex: 1;
       text-align: center;
-      padding: 12px;
-      border: 1.5px solid #e5e7eb;
+      padding: 14px;
+      border: 1.5px solid #ebebeb;
       border-radius: 50px;
-      font-size: 14px;
+      font-size: 15px;
       cursor: pointer;
       transition: 0.2s;
       font-weight: 500;
     }
 
-    input[type="radio"] { display: none; }
     input[type="radio"]:checked + .option-pill {
-      background: #f9f9f9;
+      background: var(--text-main);
       border-color: var(--text-main);
-      font-weight: 700;
+      color: white;
+      font-weight: 600;
     }
+
+    input[type="radio"] { display: none; }
 
     /* SUBMIT BUTTON */
-    .btn-next {
+    .btn-finish {
       width: 100%;
-      padding: 16px;
+      padding: 20px;
       background: var(--primary-green);
       border: none;
-      border-radius: 15px;
-      font-weight: 700;
+      border-radius: 18px;
+      font-weight: 800;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn-next:hover { transform: translateY(-2px); filter: brightness(1.05); }
-
-    /* SUCCESS ANIMATION (CONFETTI SIMULATION) */
-    .success-pop {
-        animation: pop 0.4s ease;
-    }
-    @keyframes pop {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+    .btn-finish:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 10px 20px rgba(209, 255, 130, 0.3); 
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="brand">SaaS Design Audit</div>
-    <a href="#">Help?</a>
+    <div class="brand">SaaS Audit</div>
+    
+    <a href="https://abubakriqbal.design" target="_blank" style="text-decoration: none;">
+      <div class="flip-btn">
+        <div class="flip-btn-inner">
+          <div class="flip-front">Contact</div>
+          <div class="flip-back">Know More</div>
+        </div>
+      </div>
+    </a>
   </nav>
 
-  <div class="form-card" id="mainCard">
+  <div class="form-card">
     <div id="resultBox"></div>
 
-    <div class="step-indicator">Step 2/4</div>
-    <div class="progress-bar"><div class="progress-fill" id="pBar"></div></div>
-
-    <h1>What role do you want to find?</h1>
-    <p class="welcome-text">Tell us what kind of job you're targeting so we can tailor your search and recommendations.</p>
+    <h1>Role Discovery</h1>
+    <p class="welcome-text">Complete this audit to unlock personalized role recommendations and salary benchmarks.</p>
 
     <form id="auditForm">
       <div class="input-group">
-        <label class="field-label">Email Address *</label>
-        <input type="email" id="userEmail" placeholder="e.g. yourname@gmail.com" required>
+        <label class="field-label">Work Email Address *</label>
+        <input type="email" id="userEmail" placeholder="name@company.com" required>
       </div>
 
       <div id="questionsContainer"></div>
 
-      <button type="submit" class="btn-next">Finish Audit</button>
+      <button type="submit" class="btn-finish">Submit Audit</button>
     </form>
   </div>
 
 <script>
 const quizData = [
-  {q: "Are you looking for a leadership role?", options: ["Yes", "No"], answer: 0},
-  {q: "Do you prefer remote-first companies?", options: ["Yes", "No"], answer: 0},
-  {q: "Are you willing to work weekends?", options: ["Yes", "No"], answer: 1}
+  {q: "Are you targeting leadership roles?", options: ["Yes", "No"], answer: 0},
+  {q: "Is remote work a dealbreaker?", options: ["Yes", "No"], answer: 0},
+  {q: "Are you open to contract work?", options: ["Yes", "No"], answer: 1}
 ];
 
 const container = document.getElementById("questionsContainer");
 
-// Render Questions
 quizData.forEach((item, idx) => {
   let html = `
     <div class="question-block">
@@ -211,21 +245,11 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     if(selected && parseInt(selected.value) === item.answer) score++;
   });
 
-  // Animation and Result
   const resultBox = document.getElementById("resultBox");
-  const card = document.getElementById("mainCard");
-  const pBar = document.getElementById("pBar");
-
-  pBar.style.width = "100%";
-  resultBox.innerHTML = `🎉 Audit Complete! Score: ${score} / ${quizData.length}`;
+  resultBox.innerHTML = `DONE! Score: ${score} / ${quizData.length}`;
   resultBox.style.display = "block";
   
-  card.classList.add("success-pop");
-  
   window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  // Reset animation class so it can be re-triggered
-  setTimeout(() => card.classList.remove("success-pop"), 400);
 });
 </script>
 
