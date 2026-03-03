@@ -26,7 +26,7 @@
       padding: 40px 20px;
     }
 
-    /* NAV BAR & FORM WIDTH ALIGNED TO 800px */
+    /* NAV & FORM WIDTH ALIGNMENT */
     nav, .form-card {
       width: 100%;
       max-width: 800px;
@@ -58,7 +58,7 @@
       text-decoration: none;
       font-size: 13px;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
     .chat-btn:hover {
@@ -255,6 +255,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     score: score
   };
 
+  // VERSION 3 URL
   const scriptURL = "https://script.google.com/macros/s/AKfycbyT9fqnj6kvRGDAgbd9BM7M0jMD7VEUOqijVxEQCOVT3m-If1o02oIsnEJosUhxu7tT/exec";
 
   fetch(scriptURL, {
