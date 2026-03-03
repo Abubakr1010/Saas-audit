@@ -46,6 +46,7 @@
     .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; transition: 0.2s; }
 
     /* RESULTS SCREEN */
+    #resultBox { display: none; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
     .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
     .result-q-title { font-weight: 800; font-size: 14px; margin-bottom: 6px; letter-spacing: -0.2px; }
@@ -65,7 +66,7 @@
   </nav>
 
   <div class="form-card">
-    <div id="resultBox" style="display:none;"></div>
+    <div id="resultBox"></div>
     <form id="auditForm">
       <h1>UX Intelligence Audit</h1>
       <p class="welcome-text">Generate a data-driven analysis of your SaaS / Website conversion potential.</p>
@@ -159,7 +160,9 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
   const Website = document.getElementById("userWebsite").value || "Not specified";
 
   // SEND TO TALLY
+  // Important: The keys (Name, Email, Website, Score) must match your Tally Hidden Field Names
   const tallyURL = `https://tally.so/r/yPlrzp?Name=${encodeURIComponent(Name)}&Email=${encodeURIComponent(Email)}&Website=${encodeURIComponent(Website)}&Score=${encodeURIComponent(ScoreStr)}`;
+  
   const ifrm = document.createElement("iframe");
   ifrm.src = tallyURL;
   ifrm.style.display = "none";
