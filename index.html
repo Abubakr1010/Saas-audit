@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>audit.ai | UX Intelligence</title>
+  <title>audit.ai | UX & Conversion Intelligence</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root { --primary-green: #d1ff82; --bg-gray: #f3f4f6; --text-main: #000; --text-muted: #6b7280; }
@@ -16,13 +16,15 @@
     h1 { font-size: 34px; font-weight: 800; margin: 0 0 8px 0; letter-spacing: -1.5px; }
     .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 45px; }
     label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); }
-    input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; }
+    input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
+    input:focus { border-color: #000; }
     .question-block { margin-bottom: 35px; }
     .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; }
     .option-pill { display: block; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; margin-bottom: 8px; font-size: 13.5px; transition: 0.2s; }
     input[type="radio"]:checked + .option-pill { background: #000; color: #fff; border-color: #000; }
     input[type="radio"] { display: none; }
-    .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; }
+    .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; transition: 0.3s; }
+    .btn-finish:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     #resultBox { display: none; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
     .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
@@ -42,26 +44,26 @@
     <div id="resultBox"></div>
     <form id="auditForm">
       <h1>UX Intelligence Audit</h1>
-      <p class="welcome-text">Generate a data-driven analysis of your conversion potential.</p>
+      <p class="welcome-text">Complete the audit to get your score. We'll send a copy of the results to your inbox.</p>
       
-      <label>Name</label><input type="text" id="userName" placeholder="Full Name" required>
-      <label>Email</label><input type="email" id="userEmail" placeholder="Work Email" required>
-      <label>Website</label><input type="text" id="userWebsite" placeholder="https://yourlink.com" required>
+      <label>Name</label><input type="text" id="userName" name="name" placeholder="Full Name" required>
+      <label>Email</label><input type="email" id="userEmail" name="email" placeholder="email@company.com" required>
+      <label>Website</label><input type="text" id="userWebsite" name="website" placeholder="https://..." required>
 
       <div id="questionsContainer"></div>
-      <button type="submit" id="submitBtn" class="btn-finish">Analyze My Platform</button>
+      <button type="submit" id="submitBtn" class="btn-finish">Analyze & Email Results</button>
     </form>
   </div>
 
 <script>
 const quizData = [
-  { q: "Value Proposition: Is the core benefit clear within 5 seconds?", tip: "Simplify hero copy to address one specific pain point.", good: "Messaging is sharp and unique." },
-  { q: "Time-to-Value: How quickly can a user achieve a 'win'?", tip: "Streamline the flow to deliver value with minimal setup.", good: "Excellent time-to-value efficiency." },
-  { q: "Information Architecture: Is navigation intuitive?", tip: "Group secondary links in footer to keep the header lean.", good: "Navigation is focused and clear." },
-  { q: "Mobile Responsiveness: Is the platform optimized for touch?", tip: "Fix layout shifts and increase touch target sizes.", good: "Superior mobile experience." },
-  { q: "Organic Discoverability: Is the site SEO optimized?", tip: "Optimize metadata and target high-intent keywords.", good: "Strong search presence." },
-  { q: "Visual Authority: Does the design build trust?", tip: "Harmonize color/typography for a professional finish.", good: "Premium visual identity." },
-  { q: "Conversion Friction: Is the primary CTA obvious?", tip: "Use high-contrast colors for main action buttons.", good: "Optimal conversion path." }
+  { q: "Value Proposition: Is the core benefit clear within 5 seconds?", tip: "Simplify hero copy.", good: "Messaging is sharp." },
+  { q: "Time-to-Value: How quickly can a user achieve a 'win'?", tip: "Streamline the flow.", good: "Excellent efficiency." },
+  { q: "Information Architecture: Is navigation intuitive?", tip: "Move secondary links to footer.", good: "Navigation is clear." },
+  { q: "Mobile Responsiveness: Is the platform optimized?", tip: "Fix layout shifts.", good: "Superior mobile exp." },
+  { q: "Organic Discoverability: Does the site show for searches?", tip: "Optimize metadata.", good: "Strong presence." },
+  { q: "Visual Authority: Does the design build trust?", tip: "Harmonize colors.", good: "Premium identity." },
+  { q: "Conversion Friction: Is the primary CTA obvious?", tip: "Use high-contrast colors.", good: "Optimal path." }
 ];
 
 const container = document.getElementById("questionsContainer");
@@ -78,46 +80,51 @@ quizData.forEach((item, idx) => {
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; btn.innerText = "Analyzing UX Patterns...";
+  btn.disabled = true; btn.innerText = "Analyzing Patterns...";
 
-  let totalPoints = 0; let resultHTML = "";
+  let totalPoints = 0; 
+  let breakdown = "";
   quizData.forEach((item, idx) => {
     const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
     totalPoints += val;
-    let badge = (val === 2) ? `<div class="badge badge-green">PASS: ${item.good}</div>` : `<div class="badge badge-red">ISSUE: ${item.tip}</div>`;
-    resultHTML += `<div class="result-item"><div style="font-weight:800; font-size:14px;">${item.q.split(':')[0]}</div>${badge}</div>`;
+    breakdown += `${item.q.split(':')[0]}: ${val === 2 ? 'Optimal' : (val === 1 ? 'Needs Improvement' : 'Critical')}\n`;
   });
 
   const ScoreStr = Math.round((totalPoints / 14) * 100) + "%";
-  const Name = document.getElementById("userName").value;
-  const Email = document.getElementById("userEmail").value;
-  const Website = document.getElementById("userWebsite").value;
 
-  // The Submission URL
-  const tallyURL = `https://tally.so/r/yPlrzp?Name=${encodeURIComponent(Name)}&Email=${encodeURIComponent(Email)}&Website=${encodeURIComponent(Website)}&Score=${encodeURIComponent(ScoreStr)}`;
-  
-  // Triple-Submission (Beacon + Image + Iframe)
-  if (navigator.sendBeacon) { navigator.sendBeacon(tallyURL); }
-  const imgPing = new Image(); imgPing.src = tallyURL;
-  const ifrm = document.createElement("iframe"); 
-  ifrm.src = tallyURL; ifrm.style.width="1px"; ifrm.style.height="1px"; ifrm.style.position="absolute"; ifrm.style.opacity="0.01";
-  document.body.appendChild(ifrm);
+  // Data for Formspree
+  const payload = {
+    name: document.getElementById("userName").value,
+    email: document.getElementById("userEmail").value,
+    website: document.getElementById("userWebsite").value,
+    score: ScoreStr,
+    audit_details: breakdown
+  };
 
-  // 5-SECOND DELAY to ensure Tally processes and Notion row is created
-  setTimeout(() => {
+  fetch("https://formspree.io/f/mojngjqg", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+  }).then(() => {
     document.getElementById("auditForm").style.display = "none";
     const rBox = document.getElementById("resultBox");
     rBox.style.display = "block";
     rBox.innerHTML = `
-      <div class="score-banner"><h2 style="font-size:52px; margin:0;">${ScoreStr}</h2><p>Performance Index</p></div>
-      ${resultHTML}
-      <div style="margin-top:40px; text-align:center;">
-          <a href="https://abubakriqbal.design" target="_blank" style="display:block; background:#000; color:#fff; padding:20px; border-radius:14px; text-decoration:none; font-weight:800;">Get Your Strategy →</a>
-          <button onclick="location.reload()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer; text-decoration:underline;">↺ Retake Audit</button>
+      <div class="score-banner">
+        <h2 style="font-size:52px; margin:0;">${ScoreStr}</h2>
+        <p>Results Sent to Your Inbox!</p>
+      </div>
+      <div style="text-align:center; margin-top:40px;">
+          <a href="https://abubakriqbal.design" target="_blank" style="display:block; background:#000; color:#fff; padding:20px; border-radius:14px; text-decoration:none; font-weight:800;">Scale Your Product →</a>
+          <button onclick="location.reload()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer; text-decoration:underline; font-size:12px; font-weight:600;">↺ Retake Audit</button>
       </div>
     `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 5000); 
+  }).catch(() => {
+    alert("Connection Error. Please try again.");
+    btn.disabled = false;
+    btn.innerText = "Analyze & Email Results";
+  });
 });
 </script>
 </body>
