@@ -112,12 +112,14 @@
   </div>
 
 <script>
+// Quiz Configuration
 const quizData = [
   {q: "Are you targeting leadership roles?", options: ["Yes", "No"], answer: 0},
   {q: "Is remote work a dealbreaker for you?", options: ["Yes", "No"], answer: 0},
   {q: "Are you open to freelance work?", options: ["Yes", "No"], answer: 1}
 ];
 
+// Build Quiz Questions
 const container = document.getElementById("questionsContainer");
 quizData.forEach((item, idx) => {
   container.innerHTML += `
@@ -134,43 +136,43 @@ quizData.forEach((item, idx) => {
     </div>`;
 });
 
+// Form Submission Logic
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
   btn.innerText = "Processing...";
   btn.disabled = true;
 
+  // 1. Calculate Score
   let score = 0;
   quizData.forEach((item, idx) => {
     const selected = document.querySelector(`input[name='q${idx}']:checked`);
     if(selected && parseInt(selected.value) === item.answer) score++;
   });
 
-  // URLSearchParams ensures compatibility with Version 4 Script logic
-  const formData = new URLSearchParams();
-  formData.append('name', document.getElementById("userName").value || "N/A");
-  formData.append('email', document.getElementById("userEmail").value);
-  formData.append('website', document.getElementById("userWebsite").value || "N/A");
-  formData.append('score', score);
+  // 2. Prepare the data
+  const name = encodeURIComponent(document.getElementById("userName").value || "N/A");
+  const email = encodeURIComponent(document.getElementById("userEmail").value);
+  const website = encodeURIComponent(document.getElementById("userWebsite").value || "N/A");
+  const finalScore = encodeURIComponent(score);
 
-  // YOUR UPDATED VERSION 4 URL
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyNrqFmejk1AvmUPzRH0sQtUEA5phJqwfu3Rg9wxiIm1OvxVdgd4FpO8kV0Dvg411WP/exec";
+  // 3. YOUR NEW DEPLOYMENT URL (Must be the URL from the 'doGet' script)
+  const baseURL = "https://script.google.com/macros/s/AKfycbyNrqFmejk1AvmUPzRH0sQtUEA5phJqwfu3Rg9wxiIm1OvxVdgd4FpO8kV0Dvg411WP/exec";
+  
+  // 4. Construct the Magic Link
+  const finalURL = `${baseURL}?name=${name}&email=${email}&website=${website}&score=${finalScore}`;
 
-  fetch(scriptURL, {
-    method: "POST",
-    mode: 'no-cors',
-    body: formData
-  }).then(() => {
+  // 5. Send it via "Hidden Image" fetch (Bulletproof method)
+  const logger = new Image();
+  logger.src = finalURL;
+
+  // 6. UI Update (Success Message)
+  setTimeout(() => {
     document.getElementById("resultBox").style.display = "block";
     document.getElementById("resultBox").innerHTML = `🎉 Audit Sent! Score: ${score} / 3`;
     btn.innerText = "Audit Submitted";
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }).catch(err => {
-    console.error(err);
-    alert("Error saving data.");
-    btn.disabled = false;
-    btn.innerText = "Finish Audit";
-  });
+  }, 1000);
 });
 </script>
 
