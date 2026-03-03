@@ -16,7 +16,7 @@
     * { box-sizing: border-box; }
     
     body { 
-      font-family: 'Publica Sans', 'Inter', sans-serif; 
+      font-family: 'Inter', sans-serif; 
       margin: 0; 
       background: var(--bg-gray); 
       color: var(--text-main);
@@ -26,7 +26,12 @@
       padding: 40px 20px;
     }
 
-    /* WIDER NAV BAR */
+    /* NAV BAR & FORM WIDTH ALIGNMENT */
+    nav, .form-card {
+      width: 100%;
+      max-width: 800px; /* Matched width */
+    }
+
     nav {
       background: white;
       padding: 12px 40px;
@@ -34,179 +39,119 @@
       justify-content: space-between;
       align-items: center;
       border-radius: 60px;
-      width: 100%;
-      max-width: 800px; /* Broader nav */
       margin-bottom: 40px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
     .brand { font-weight: 800; font-size: 16px; letter-spacing: -0.5px; }
 
-    /* FLIP BUTTON */
-    .flip-btn {
-      perspective: 1000px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      height: 40px;
-      width: 120px;
-    }
-
-    .flip-btn-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .flip-btn:hover .flip-btn-inner {
-      transform: rotateX(180deg);
-    }
-
-    .flip-front, .flip-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
+    /* KNOW MORE BUTTON - Non-flipping text */
+    .know-more-btn {
+      background: #eee;
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 50px;
+      text-decoration: none;
       font-size: 13px;
       font-weight: 600;
-      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+      display: inline-block;
     }
 
-    .flip-front { background: #eee; color: #000; }
-    .flip-back { 
-      background: var(--text-main); 
-      color: white; 
-      transform: rotateX(180deg); 
+    .know-more-btn:hover {
+      background: var(--text-main);
+      color: white;
+      transform: translateY(-2px);
     }
 
     /* FORM CARD */
     .form-card {
       background: white;
-      width: 100%;
-      max-width: 550px;
       padding: 50px;
       border-radius: 40px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.04);
-      position: relative;
-    }
-
-    #resultBox {
-      display: none;
-      background: var(--text-main);
-      color: var(--primary-green);
-      padding: 18px;
-      border-radius: 20px;
-      margin-bottom: 30px;
-      text-align: center;
-      font-weight: 800;
-      font-size: 20px;
-      animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
 
     h1 { font-size: 36px; font-weight: 800; margin: 0 0 15px 0; letter-spacing: -1.5px; line-height: 1; }
     .welcome-text { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.5; }
 
-    /* INPUTS */
-    .input-group { margin-bottom: 35px; }
-    label.field-label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    /* INPUTS AT 48px HEIGHT */
+    .input-group { margin-bottom: 25px; }
+    label.field-label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
 
-    input[type="email"] {
+    input[type="email"], input[type="text"] {
       width: 100%;
-      padding: 18px;
+      height: 48px; /* Fixed height */
+      padding: 0 18px;
       border: 1.5px solid #ebebeb;
-      border-radius: 16px;
-      font-size: 16px;
+      border-radius: 12px;
+      font-size: 15px;
       outline: none;
       transition: 0.2s;
     }
-    input[type="email"]:focus { border-color: var(--text-main); background: #fafafa; }
+    input:focus { border-color: var(--text-main); background: #fafafa; }
 
-    /* QUESTION STYLING */
-    .question-block { margin-bottom: 45px; }
-    .question-text { font-weight: 700; font-size: 18px; margin-bottom: 25px; display: block; letter-spacing: -0.5px; }
+    .question-block { margin-top: 40px; margin-bottom: 40px; }
+    .question-text { font-weight: 700; font-size: 18px; margin-bottom: 20px; display: block; }
 
     .options-row { display: flex; gap: 15px; }
-    
     .option-pill {
       flex: 1;
       text-align: center;
       padding: 14px;
       border: 1.5px solid #ebebeb;
       border-radius: 50px;
-      font-size: 15px;
       cursor: pointer;
-      transition: 0.2s;
       font-weight: 500;
     }
-
-    input[type="radio"]:checked + .option-pill {
-      background: var(--text-main);
-      border-color: var(--text-main);
-      color: white;
-      font-weight: 600;
-    }
-
+    input[type="radio"]:checked + .option-pill { background: var(--text-main); color: white; }
     input[type="radio"] { display: none; }
 
-    /* SUBMIT BUTTON */
     .btn-finish {
       width: 100%;
-      padding: 20px;
+      height: 56px;
       background: var(--primary-green);
       border: none;
       border-radius: 18px;
       font-weight: 800;
       font-size: 16px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: 0.2s;
     }
-    .btn-finish:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 10px 20px rgba(209, 255, 130, 0.3); 
-    }
+    .btn-finish:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(209,255,130,0.3); }
+
+    #resultBox { display: none; background: #000; color: var(--primary-green); padding: 20px; border-radius: 20px; margin-bottom: 25px; text-align: center; font-weight: 800; }
   </style>
 </head>
 <body>
 
   <nav>
     <div class="brand">SaaS Audit</div>
-    
-    <a href="https://abubakriqbal.design" target="_blank" style="text-decoration: none;">
-      <div class="flip-btn">
-        <div class="flip-btn-inner">
-          <div class="flip-front">Contact</div>
-          <div class="flip-back">Know More</div>
-        </div>
-      </div>
-    </a>
+    <a href="https://abubakriqbal.design" target="_blank" class="know-more-btn">Know More</a>
   </nav>
 
   <div class="form-card">
     <div id="resultBox"></div>
-
     <h1>Role Discovery</h1>
-    <p class="welcome-text">Complete this audit to unlock personalized role recommendations and salary benchmarks.</p>
+    <p class="welcome-text">Complete this audit to unlock personalized recommendations.</p>
 
     <form id="auditForm">
+      <div class="input-group">
+        <label class="field-label">Full Name</label>
+        <input type="text" id="userName" placeholder="Your Name">
+      </div>
+
       <div class="input-group">
         <label class="field-label">Work Email Address *</label>
         <input type="email" id="userEmail" placeholder="name@company.com" required>
       </div>
 
-      <div id="questionsContainer"></div>
+      <div class="input-group">
+        <label class="field-label">Website (Optional)</label>
+        <input type="text" id="userWebsite" placeholder="https://...">
+      </div>
 
+      <div id="questionsContainer"></div>
       <button type="submit" class="btn-finish">Submit Audit</button>
     </form>
   </div>
@@ -214,14 +159,12 @@
 <script>
 const quizData = [
   {q: "Are you targeting leadership roles?", options: ["Yes", "No"], answer: 0},
-  {q: "Is remote work a dealbreaker?", options: ["Yes", "No"], answer: 0},
-  {q: "Are you open to contract work?", options: ["Yes", "No"], answer: 1}
+  {q: "Is remote work a dealbreaker?", options: ["Yes", "No"], answer: 0}
 ];
 
 const container = document.getElementById("questionsContainer");
-
 quizData.forEach((item, idx) => {
-  let html = `
+  container.innerHTML += `
     <div class="question-block">
       <span class="question-text">${item.q}</span>
       <div class="options-row">
@@ -233,25 +176,33 @@ quizData.forEach((item, idx) => {
         `).join('')}
       </div>
     </div>`;
-  container.innerHTML += html;
 });
 
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
-
   let score = 0;
   quizData.forEach((item, idx) => {
     const selected = document.querySelector(`input[name='q${idx}']:checked`);
     if(selected && parseInt(selected.value) === item.answer) score++;
   });
 
-  const resultBox = document.getElementById("resultBox");
-  resultBox.innerHTML = `DONE! Score: ${score} / ${quizData.length}`;
-  resultBox.style.display = "block";
-  
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const payload = {
+    name: document.getElementById("userName").value,
+    email: document.getElementById("userEmail").value,
+    website: document.getElementById("userWebsite").value,
+    score: score
+  };
+
+  fetch("YOUR_APPS_SCRIPT_URL_HERE", {
+    method: "POST",
+    mode: 'no-cors',
+    body: JSON.stringify(payload)
+  }).then(() => {
+    document.getElementById("resultBox").style.display = "block";
+    document.getElementById("resultBox").innerHTML = `Audit Submitted! Score: ${score}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 });
 </script>
-
 </body>
 </html>
