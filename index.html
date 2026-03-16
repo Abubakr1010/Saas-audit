@@ -3,23 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <title>audit.ai | UX & Conversion Intelligence Audit</title>
-  <meta name="description" content="Get an instant UX score and conversion analysis. Identify friction points and scale your AI app or SaaS platform with Abu Bakr Iqbal.">
-  
-  <link rel="icon" type="image/png" href="https://framerusercontent.com/images/a0emKgbnA7T6MXngNTDCmTJXAvc.png">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://audit.abubakriqbal.design/">
-  <meta property="og:title" content="audit.ai | UX & Conversion Intelligence">
-  <meta property="og:description" content="Identify friction points in your SaaS or AI app instantly. Get your free design audit score.">
-  <meta property="og:image" content="https://framerusercontent.com/assets/feN4OVSm2ChtRgDiLPcMdpdFX9U.png">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="audit.ai | UX & Conversion Intelligence">
-  <meta name="twitter:description" content="Identify friction points in your SaaS or AI app instantly.">
-  <meta name="twitter:image" content="https://framerusercontent.com/assets/feN4OVSm2ChtRgDiLPcMdpdFX9U.png">
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
@@ -33,20 +17,20 @@
     .form-card { background: white; padding: 50px; border-radius: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
     h1 { font-size: 34px; font-weight: 800; margin: 0 0 8px 0; letter-spacing: -1.5px; }
     .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 45px; }
-    label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); }
-    input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
-    input:focus { border-color: #000; }
+    label.field-label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); }
+    input.text-input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
     .question-block { margin-bottom: 35px; }
     .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; }
-    .option-pill { display: block; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; margin-bottom: 8px; font-size: 13.5px; transition: 0.2s; }
+    .options-wrapper { display: flex; gap: 10px; }
+    .option-label { flex: 1; }
+    .option-pill { display: block; text-align: center; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; font-size: 13.5px; transition: 0.2s; }
     input[type="radio"]:checked + .option-pill { background: #000; color: #fff; border-color: #000; }
     input[type="radio"] { display: none; }
     .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; transition: 0.3s; }
-    .btn-finish:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    #resultBox { display: none; }
+    #resultBox { display: none; width: 100%; max-width: 760px; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
-    .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; text-align: left; }
-    .badge { display: inline-block; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-top: 10px; }
+    .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
+    .badge { display: inline-block; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-top: 10px; line-height: 1.5; white-space: pre-line; }
     .badge-red { background: #fee2e2; color: #dc2626; }
     .badge-green { background: #ecfdf5; color: #059669; }
   </style>
@@ -58,46 +42,44 @@
     <a href="https://abubakriqbal.design" target="_blank" style="background:#000; color:#fff; padding:12px 24px; border-radius:50px; text-decoration:none; font-size:12px; font-weight:700;">Scale Your Product →</a>
   </nav>
 
-  <div class="form-card">
-    <div id="resultBox"></div>
+  <div class="form-card" id="formWrapper">
     <form id="auditForm">
       <h1>UX Intelligence Audit</h1>
       <p class="welcome-text">Complete the audit to get your instant UX score and conversion analysis.</p>
       
-      <label>Name</label><input type="text" id="userName" name="name" placeholder="Full Name" required>
-      <label>Email</label><input type="email" id="userEmail" name="email" placeholder="email@company.com" required>
-      <label>Website</label><input type="text" id="userWebsite" name="website" placeholder="https://..." required>
+      <label class="field-label">Name</label><input type="text" id="userName" class="text-input" placeholder="Full Name" required>
+      <label class="field-label">Email</label><input type="email" id="userEmail" class="text-input" placeholder="email@company.com" required>
+      <label class="field-label">Website</label><input type="text" id="userWebsite" class="text-input" placeholder="https://..." required>
 
       <div id="questionsContainer"></div>
       <button type="submit" id="submitBtn" class="btn-finish">Analyze & Get Results</button>
     </form>
   </div>
 
+  <div id="resultBox"></div>
+
 <script>
 const quizData = [
-  { q: "Value Proposition: Is the core benefit clear within 5 seconds?", tip: "For the Website/Landing Page
-The "Grunt Test" Headline: Rewrite the header so a caveman could understand it. Ex: "Manage teams" instead of "Holistic resource synergy."
-
-Visual Proof: Replace abstract illustrations with a real screenshot of the product's most valuable screen.
-
-Micro-Copy Assurance: Place "No credit card required" or "Setup in 2 mins" directly under the CTA button to kill sign-up fear.
-
-One-Column Flow: Ensure the mobile view doesn't have "side-by-side" elements that force erratic eye movement.
-
-For the SaaS Product (App)
-Skeleton Loaders: If the app takes 5+ seconds to load, use skeleton screens (gray UI outlines) instead of a spinning wheel to make it feel faster.
-
-Empty State Guidance: If a user lands on a blank dashboard, don't leave it empty. Add a "Create your first [Task]" button in the center.
-
-Progressive Disclosure: Hide advanced settings. Only show the 3 buttons needed to reach the "Aha!" moment.
-
-In-App Search (CMD+K): Add a global search bar so users can find features instantly without digging through menus.", good: "Messaging is sharp." },
-  { q: "Time-to-Value: How quickly can a user achieve a 'win'?", tip: "Streamline the flow.", good: "Excellent efficiency." },
-  { q: "Information Architecture: Is navigation intuitive?", tip: "Move secondary links to footer.", good: "Navigation is clear." },
-  { q: "Mobile Responsiveness: Is the platform optimized?", tip: "Fix layout shifts.", good: "Superior mobile exp." },
-  { q: "Organic Discoverability: Does the site show for searches?", tip: "Optimize metadata.", good: "Strong presence." },
-  { q: "Visual Authority: Does the design build trust?", tip: "Harmonize colors.", good: "Premium identity." },
-  { q: "Conversion Friction: Is the primary CTA obvious?", tip: "Use high-contrast colors.", good: "Optimal path." }
+  { 
+    q: "Value Proposition: Is the core benefit clear within 5 seconds?", 
+    tip: `TIP: Rewrite the header so a caveman could understand it (The Grunt Test). Replace abstract illustrations with real product screenshots. Ensure a one-column flow on mobile.`, 
+    good: "Messaging is sharp and immediate." 
+  },
+  { 
+    q: "Information Architecture: Is navigation intuitive?", 
+    tip: `TIP: Focus on Discoverability (links not buried), Predictability (literal labels like 'Resources'), and Consistency across the experience.`, 
+    good: "Navigation is clear and follows standard mental models." 
+  },
+  { 
+    q: "Mobile Responsiveness: Is the platform optimized?", 
+    tip: `TIP: Ensure Headline + CTA are above the fold. Use 44x44px tap targets. Compress assets for fast loading on 4G.`, 
+    good: "Superior mobile experience and layout." 
+  },
+  { 
+    q: "Visual Authority: Does the design build trust?", 
+    tip: `TIP: Use a unified design system. Consistent icons, spacing, and buttons signal that the organization is professional and 'has its act together'.`, 
+    good: "Premium identity and high visual trust." 
+  }
 ];
 
 const container = document.getElementById("questionsContainer");
@@ -105,26 +87,28 @@ quizData.forEach((item, idx) => {
   container.innerHTML += `
     <div class="question-block">
       <span class="question-text">${idx+1}. ${item.q}</span>
-      <label><input type="radio" name="q${idx}" value="2" required><div class="option-pill">Optimal</div></label>
-      <label><input type="radio" name="q${idx}" value="1"><div class="option-pill">Needs Improvement</div></label>
-      <label><input type="radio" name="q${idx}" value="0"><div class="option-pill">Critical Friction</div></label>
+      <div class="options-wrapper">
+        <label class="option-label"><input type="radio" name="q${idx}" value="1" required><div class="option-pill">Yes</div></label>
+        <label class="option-label"><input type="radio" name="q${idx}" value="0"><div class="option-pill">No</div></label>
+      </div>
     </div>`;
 });
 
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; btn.innerText = "Analyzing Patterns...";
+  btn.disabled = true; 
+  btn.innerText = "Analyzing Patterns...";
 
-  let totalPoints = 0; 
+  let score = 0; 
   let breakdownHTML = "";
   let emailBreakdown = "";
 
   quizData.forEach((item, idx) => {
     const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
-    totalPoints += val;
+    score += val;
     
-    let isGood = val === 2;
+    let isGood = val === 1;
     let badgeClass = isGood ? 'badge-green' : 'badge-red';
     let statusLabel = isGood ? 'PASS' : 'ISSUE';
     let feedback = isGood ? item.good : item.tip;
@@ -135,16 +119,16 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
         <div class="badge ${badgeClass}">${statusLabel}: ${feedback}</div>
       </div>`;
     
-    emailBreakdown += `${item.q.split(':')[0]}: ${statusLabel} (${feedback})\n`;
+    emailBreakdown += `${item.q.split(':')[0]}: ${statusLabel}\n`;
   });
 
-  const ScoreStr = Math.round((totalPoints / 14) * 100) + "%";
+  const finalScore = Math.round((score / 4) * 100) + "%";
 
   const payload = {
     name: document.getElementById("userName").value,
     email: document.getElementById("userEmail").value,
     website: document.getElementById("userWebsite").value,
-    score: ScoreStr,
+    score: finalScore,
     audit_details: emailBreakdown
   };
 
@@ -153,13 +137,13 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     body: JSON.stringify(payload),
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
   }).then(() => {
-    document.getElementById("auditForm").style.display = "none";
+    document.getElementById("formWrapper").style.display = "none";
     const rBox = document.getElementById("resultBox");
     rBox.style.display = "block";
     rBox.innerHTML = `
       <div class="score-banner">
-        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">Analysis Complete</p>
-        <h2 style="font-size:52px; margin:0; letter-spacing:-2px;">${ScoreStr}</h2>
+        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">Audit Complete</p>
+        <h2 style="font-size:52px; margin:0; letter-spacing:-2px;">${finalScore}</h2>
       </div>
       ${breakdownHTML}
       <div style="text-align:center; margin-top:40px;">
@@ -169,7 +153,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }).catch(() => {
-    alert("Connection Error. Please try again.");
+    alert("Error submitting. Please try again.");
     btn.disabled = false;
     btn.innerText = "Analyze & Get Results";
   });
