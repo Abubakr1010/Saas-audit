@@ -20,7 +20,7 @@
     label.field-label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); }
     input.text-input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
     .question-block { margin-bottom: 35px; }
-    .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; }
+    .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; line-height: 1.4; }
     .options-wrapper { display: flex; gap: 10px; }
     .option-label { flex: 1; }
     .option-pill { display: block; text-align: center; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; font-size: 13.5px; transition: 0.2s; }
@@ -30,9 +30,9 @@
     #resultBox { display: none; width: 100%; max-width: 760px; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
     .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
-    .badge { display: inline-block; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-top: 10px; line-height: 1.5; white-space: pre-line; }
-    .badge-red { background: #fee2e2; color: #dc2626; }
-    .badge-green { background: #ecfdf5; color: #059669; }
+    .badge { display: block; padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-top: 12px; line-height: 1.6; white-space: pre-line; }
+    .badge-red { background: #fee2e2; color: #991b1b; border-left: 4px solid #dc2626; }
+    .badge-green { background: #ecfdf5; color: #065f46; border-left: 4px solid #059669; }
   </style>
 </head>
 <body>
@@ -62,23 +62,35 @@
 const quizData = [
   { 
     q: "Value Proposition: Is the core benefit clear within 5 seconds?", 
-    tip: `TIP: Rewrite the header so a caveman could understand it (The Grunt Test). Replace abstract illustrations with real product screenshots. Ensure a one-column flow on mobile.`, 
-    good: "Messaging is sharp and immediate." 
+    tip: `IMPROVEMENT PLAN:
+• Grunt Test: Simplify headline so it's instantly clear (e.g., "Manage Teams" vs "Holistic Synergy").
+• Visual Proof: Use real product screenshots instead of abstract icons.
+• SaaS Optimization: Use Skeleton Loaders for speed perception and Empty State guidance to lead users to their first "Aha!" moment.
+• Accessibility: Implement Progressive Disclosure to hide advanced features and CMD+K search for instant navigation.`, 
+    good: "Your messaging is sharp. Users immediately understand what you do and how it helps them." 
   },
   { 
     q: "Information Architecture: Is navigation intuitive?", 
-    tip: `TIP: Focus on Discoverability (links not buried), Predictability (literal labels like 'Resources'), and Consistency across the experience.`, 
-    good: "Navigation is clear and follows standard mental models." 
+    tip: `IMPROVEMENT PLAN:
+• Discoverability: Ensure key links aren't buried more than 3 clicks deep.
+• Predictability: Use literal labels (e.g., "Pricing") rather than clever ones.
+• Consistency: Keep navigation elements in the same place and style across all pages.`, 
+    good: "Excellent IA. Navigation follows user mental models and maintains consistency across the site." 
   },
   { 
     q: "Mobile Responsiveness: Is the platform optimized?", 
-    tip: `TIP: Ensure Headline + CTA are above the fold. Use 44x44px tap targets. Compress assets for fast loading on 4G.`, 
-    good: "Superior mobile experience and layout." 
+    tip: `IMPROVEMENT PLAN:
+• The "Fold" Rule: Keep the Headline and CTA visible without scrolling.
+• Performance: Compress images for 4G speeds; avoid 15-second load times.
+• UX Targets: Use 44x44px tap targets to avoid "fat finger" errors and use single-column inputs for cleaner scrolling.`, 
+    good: "Superior mobile experience. Tap targets are appropriately sized and layouts adapt perfectly." 
   },
   { 
     q: "Visual Authority: Does the design build trust?", 
-    tip: `TIP: Use a unified design system. Consistent icons, spacing, and buttons signal that the organization is professional and 'has its act together'.`, 
-    good: "Premium identity and high visual trust." 
+    tip: `IMPROVEMENT PLAN:
+• Design System: A unified system (consistent icons, spacing, and buttons) signals professional maturity.
+• Consistency: Ensure your visual language remains identical from the landing page to the deepest app setting.`, 
+    good: "Premium identity. Your visual consistency signals a professional and reliable organization." 
   }
 ];
 
@@ -102,7 +114,6 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
 
   let score = 0; 
   let breakdownHTML = "";
-  let emailBreakdown = "";
 
   quizData.forEach((item, idx) => {
     const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
@@ -110,40 +121,27 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     
     let isGood = val === 1;
     let badgeClass = isGood ? 'badge-green' : 'badge-red';
-    let statusLabel = isGood ? 'PASS' : 'ISSUE';
+    let statusLabel = isGood ? '✓ OPTIMAL' : '⚠ NEEDS ATTENTION';
     let feedback = isGood ? item.good : item.tip;
 
     breakdownHTML += `
       <div class="result-item">
-        <div style="font-weight:800; font-size:14px;">${item.q.split(':')[0]}</div>
-        <div class="badge ${badgeClass}">${statusLabel}: ${feedback}</div>
+        <div style="font-weight:800; font-size:14px; text-transform:uppercase; color:#666;">${item.q.split(':')[0]}</div>
+        <div class="badge ${badgeClass}"><strong>${statusLabel}</strong>\n${feedback}</div>
       </div>`;
-    
-    emailBreakdown += `${item.q.split(':')[0]}: ${statusLabel}\n`;
   });
 
-  const finalScore = Math.round((score / 4) * 100) + "%";
+  const finalScorePercentage = Math.round((score / 4) * 100) + "%";
 
-  const payload = {
-    name: document.getElementById("userName").value,
-    email: document.getElementById("userEmail").value,
-    website: document.getElementById("userWebsite").value,
-    score: finalScore,
-    audit_details: emailBreakdown
-  };
-
-  fetch("https://formspree.io/f/mojngjqg", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
-  }).then(() => {
+  // Simulate submission and show results
+  setTimeout(() => {
     document.getElementById("formWrapper").style.display = "none";
     const rBox = document.getElementById("resultBox");
     rBox.style.display = "block";
     rBox.innerHTML = `
       <div class="score-banner">
-        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">Audit Complete</p>
-        <h2 style="font-size:52px; margin:0; letter-spacing:-2px;">${finalScore}</h2>
+        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">UX Audit Score</p>
+        <h2 style="font-size:72px; margin:0; letter-spacing:-3px;">${finalScorePercentage}</h2>
       </div>
       ${breakdownHTML}
       <div style="text-align:center; margin-top:40px;">
@@ -152,11 +150,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
       </div>
     `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }).catch(() => {
-    alert("Error submitting. Please try again.");
-    btn.disabled = false;
-    btn.innerText = "Analyze & Get Results";
-  });
+  }, 1200);
 });
 </script>
 </body>
