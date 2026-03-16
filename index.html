@@ -9,38 +9,86 @@
   <style>
     :root { --primary-green: #d1ff82; --bg-gray: #f3f4f6; --text-main: #000; --text-muted: #6b7280; }
     * { box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-gray); display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
-    nav, .form-card { width: 100%; max-width: 760px; }
-    nav { background: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 100px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-    .brand { font-weight: 800; font-size: 15px; text-transform: lowercase; }
+    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-gray); display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+    
+    /* Navigation Styles */
+    nav { 
+      width: 100%; 
+      max-width: 760px; 
+      background: white; 
+      padding: 10px 20px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-radius: 100px; 
+      margin-bottom: 30px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+    }
+    .brand { font-weight: 800; font-size: 15px; text-transform: lowercase; margin-left: 10px; }
     .brand span { color: var(--text-muted); }
-    .form-card { background: white; padding: 50px; border-radius: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    
+    .btn-cta { 
+      background: #000; 
+      color: #fff; 
+      padding: 10px 20px; 
+      border-radius: 50px; 
+      text-decoration: none; 
+      font-size: 12px; 
+      font-weight: 700; 
+      transition: 0.2s;
+    }
+    .btn-cta:hover { opacity: 0.8; }
+
+    .linkedin-nav-icon { 
+      display: flex; 
+      align-items: center; 
+      transition: transform 0.2s; 
+    }
+    .linkedin-nav-icon svg { width: 28px; height: 28px; fill: #0077B5; }
+    .linkedin-nav-icon:hover { transform: scale(1.1); }
+
+    /* Form & Result Styles */
+    .form-card, #resultBox { width: 100%; max-width: 760px; background: white; padding: 50px; border-radius: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); }
     h1 { font-size: 34px; font-weight: 800; margin: 0 0 8px 0; letter-spacing: -1.5px; }
     .welcome-text { font-size: 15px; color: var(--text-muted); margin-bottom: 45px; }
+    
     label.field-label { display: block; font-size: 10px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; color: var(--text-muted); }
     input.text-input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 18px; font-size: 14px; outline: none; transition: 0.2s; }
+    input.text-input:focus { border-color: #000; }
+    
     .question-block { margin-bottom: 35px; }
     .question-text { font-weight: 700; font-size: 16px; margin-bottom: 14px; display: block; line-height: 1.4; }
     .options-wrapper { display: flex; gap: 10px; }
-    .option-label { flex: 1; }
-    .option-pill { display: block; text-align: center; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; font-size: 13.5px; transition: 0.2s; }
+    .option-pill { flex: 1; display: block; text-align: center; padding: 12px 18px; border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; font-size: 13.5px; transition: 0.2s; }
     input[type="radio"]:checked + .option-pill { background: #000; color: #fff; border-color: #000; }
     input[type="radio"] { display: none; }
+    
     .btn-finish { width: 100%; height: 56px; background: var(--primary-green); border: none; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 25px; transition: 0.3s; }
-    #resultBox { display: none; width: 100%; max-width: 760px; }
+    
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
     .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
     .badge { display: block; padding: 16px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-top: 12px; line-height: 1.6; white-space: pre-line; }
     .badge-red { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
     .badge-green { background: #ecfdf5; color: #065f46; border: 1px solid #d1fae5; }
-    .tip-heading { font-weight: 800; text-transform: uppercase; font-size: 11px; margin-bottom: 8px; display: block; text-decoration: underline; }
+
+    @media (max-width: 500px) {
+      nav { padding: 10px; border-radius: 20px; }
+      .brand { display: none; } /* Hide brand on very small screens to save space */
+      .form-card { padding: 30px 20px; }
+    }
   </style>
 </head>
 <body>
 
   <nav>
     <div class="brand">audit<span>.ai</span></div>
-    <a href="https://abubakriqbal.design" target="_blank" style="background:#000; color:#fff; padding:12px 24px; border-radius:50px; text-decoration:none; font-size:12px; font-weight:700;">Scale Your Product →</a>
+    <div class="nav-right">
+      <a href="https://abubakriqbal.design" target="_blank" class="btn-cta">Scale Your Product →</a>
+      <a href="https://www.linkedin.com/in/abubakriqbal1/" target="_blank" class="linkedin-nav-icon" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      </a>
+    </div>
   </nav>
 
   <div class="form-card" id="formWrapper">
@@ -70,7 +118,7 @@ const quizData = [
 
 FOR THE SAAS PRODUCT (APP)
 • Skeleton Loaders: If the app takes 5+ seconds to load, use skeleton screens instead of a spinning wheel.
-• Empty State Guidance: Add a "Create your first [Task]" button in the center of blank dashboards.
+• Empty State Guidance: Add a "Create your first [Task]" button in the center.
 • Progressive Disclosure: Only show the 3 buttons needed to reach the "Aha!" moment.
 • In-App Search (CMD+K): Add a global search bar to find features instantly.`, 
     good: "Your messaging is sharp. Users immediately understand your value proposition." 
@@ -78,27 +126,27 @@ FOR THE SAAS PRODUCT (APP)
   { 
     q: "Information Architecture: Is navigation intuitive?", 
     tip: `THE PILLARS OF INTUITIVE NAVIGATION
-• Discoverability: Can the user see where they need to go immediately? If links are buried 3 clicks deep, the IA is failing.
-• Predictability: Does the label "Resources" lead to white papers (expected) or a form (unexpected)? Labels should be literal.
-• Consistency: Navigation elements must stay in the same place and style across the entire experience.`, 
+• Discoverability: Key links shouldn't be buried 3 clicks deep.
+• Predictability: Use literal labels (e.g., "Resources") rather than clever ones.
+• Consistency: Navigation must stay in the same place and style across the experience.`, 
     good: "Navigation is clear and follows standard user mental models." 
   },
   { 
     q: "Mobile Responsiveness: Is the platform optimized?", 
     tip: `FOR THE WEBSITE/LANDING PAGE
-• The "Fold" Rule: Ensure the Headline + CTA button are both visible without scrolling.
+• The "Fold" Rule: Ensure Headline + CTA are visible without scrolling.
 • Asset Weight: Compress images/videos specifically for mobile.
 
 FOR THE SAAS PRODUCT (APP)
-• Tap Targets: All buttons/links must be at least 44x44 pixels.
-• Keyboard Adaptation: Ensure the "Sign Up" or "Save" button stays above the software keyboard.
-• Single-Column Inputs: Never use side-by-side input fields on mobile; it causes erratic scrolling.`, 
-    good: "The mobile experience is fluid and appropriately scaled for touch interaction." 
+• Tap Targets: All buttons must be at least 44x44 pixels.
+• Keyboard Adaptation: Ensure buttons stay above the software keyboard.
+• Single-Column Inputs: Never use side-by-side fields on mobile.`, 
+    good: "The mobile experience is fluid and scaled for touch interaction." 
   },
   { 
     q: "Visual Authority: Does the design build trust?", 
     tip: `A unified design system (consistent icons, spacing, and buttons) signals that the organization is professional and "has its act together."`, 
-    good: "Visuals are consistent and professional, building immediate authority with the user." 
+    good: "Visuals are consistent and professional, building immediate authority." 
   }
 ];
 
@@ -108,8 +156,8 @@ quizData.forEach((item, idx) => {
     <div class="question-block">
       <span class="question-text">${idx+1}. ${item.q}</span>
       <div class="options-wrapper">
-        <label class="option-label"><input type="radio" name="q${idx}" value="1" required><div class="option-pill">Yes</div></label>
-        <label class="option-label"><input type="radio" name="q${idx}" value="0"><div class="option-pill">No</div></label>
+        <label style="flex:1"><input type="radio" name="q${idx}" value="1" required><div class="option-pill">Yes</div></label>
+        <label style="flex:1"><input type="radio" name="q${idx}" value="0"><div class="option-pill">No</div></label>
       </div>
     </div>`;
 });
@@ -117,25 +165,21 @@ quizData.forEach((item, idx) => {
 document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; 
-  btn.innerText = "Analyzing UX Patterns...";
+  btn.disabled = true; btn.innerText = "Analyzing UX Patterns...";
 
-  let score = 0; 
+  let score = 0;
   let breakdownHTML = "";
 
   quizData.forEach((item, idx) => {
     const val = parseInt(document.querySelector(`input[name='q${idx}']:checked`).value);
     score += val;
-    
     let isGood = val === 1;
-    let badgeClass = isGood ? 'badge-green' : 'badge-red';
-    let statusLabel = isGood ? '✓ OPTIMAL' : '⚠ ACTION REQUIRED';
-    let feedback = isGood ? item.good : item.tip;
-
     breakdownHTML += `
       <div class="result-item">
-        <div style="font-weight:800; font-size:12px; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">${item.q.split(':')[0]}</div>
-        <div class="badge ${badgeClass}"><span class="tip-heading">${statusLabel}</span>${feedback}</div>
+        <div style="font-weight:800; font-size:12px; color:#6b7280; text-transform:uppercase;">${item.q.split(':')[0]}</div>
+        <div class="badge ${isGood ? 'badge-green' : 'badge-red'}">
+          <strong>${isGood ? '✓ OPTIMAL' : '⚠ ACTION REQUIRED'}</strong>\n${isGood ? item.good : item.tip}
+        </div>
       </div>`;
   });
 
@@ -154,8 +198,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
       <div style="text-align:center; margin-top:40px;">
           <a href="https://abubakriqbal.design" target="_blank" style="display:block; background:#000; color:#fff; padding:20px; border-radius:14px; text-decoration:none; font-weight:800;">Get Your Custom Strategy →</a>
           <button onclick="location.reload()" style="background:none; border:none; color:#999; margin-top:20px; cursor:pointer; text-decoration:underline; font-size:12px; font-weight:600;">↺ Retake Audit</button>
-      </div>
-    `;
+      </div>`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, 1000);
 });
