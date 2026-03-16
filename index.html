@@ -30,9 +30,10 @@
     #resultBox { display: none; width: 100%; max-width: 760px; }
     .score-banner { text-align: center; background: #000; color: #fff; padding: 45px; border-radius: 24px; margin-bottom: 30px; }
     .result-item { background: #f9fafb; padding: 22px; border-radius: 16px; margin-bottom: 12px; border: 1px solid #f1f5f9; }
-    .badge { display: block; padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-top: 12px; line-height: 1.6; white-space: pre-line; }
-    .badge-red { background: #fee2e2; color: #991b1b; border-left: 4px solid #dc2626; }
-    .badge-green { background: #ecfdf5; color: #065f46; border-left: 4px solid #059669; }
+    .badge { display: block; padding: 16px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-top: 12px; line-height: 1.6; white-space: pre-line; }
+    .badge-red { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+    .badge-green { background: #ecfdf5; color: #065f46; border: 1px solid #d1fae5; }
+    .tip-heading { font-weight: 800; text-transform: uppercase; font-size: 11px; margin-bottom: 8px; display: block; text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -62,35 +63,42 @@
 const quizData = [
   { 
     q: "Value Proposition: Is the core benefit clear within 5 seconds?", 
-    tip: `IMPROVEMENT PLAN:
-• Grunt Test: Simplify headline so it's instantly clear (e.g., "Manage Teams" vs "Holistic Synergy").
-• Visual Proof: Use real product screenshots instead of abstract icons.
-• SaaS Optimization: Use Skeleton Loaders for speed perception and Empty State guidance to lead users to their first "Aha!" moment.
-• Accessibility: Implement Progressive Disclosure to hide advanced features and CMD+K search for instant navigation.`, 
-    good: "Your messaging is sharp. Users immediately understand what you do and how it helps them." 
+    tip: `FOR THE WEBSITE/LANDING PAGE
+• The "Grunt Test" Headline: Rewrite the header so a caveman could understand it. Ex: "Manage teams" instead of "Holistic resource synergy."
+• Visual Proof: Replace abstract illustrations with a real screenshot of the product's most valuable screen.
+• One-Column Flow: Ensure the mobile view doesn't have "side-by-side" elements that force erratic eye movement.
+
+FOR THE SAAS PRODUCT (APP)
+• Skeleton Loaders: If the app takes 5+ seconds to load, use skeleton screens instead of a spinning wheel.
+• Empty State Guidance: Add a "Create your first [Task]" button in the center of blank dashboards.
+• Progressive Disclosure: Only show the 3 buttons needed to reach the "Aha!" moment.
+• In-App Search (CMD+K): Add a global search bar to find features instantly.`, 
+    good: "Your messaging is sharp. Users immediately understand your value proposition." 
   },
   { 
     q: "Information Architecture: Is navigation intuitive?", 
-    tip: `IMPROVEMENT PLAN:
-• Discoverability: Ensure key links aren't buried more than 3 clicks deep.
-• Predictability: Use literal labels (e.g., "Pricing") rather than clever ones.
-• Consistency: Keep navigation elements in the same place and style across all pages.`, 
-    good: "Excellent IA. Navigation follows user mental models and maintains consistency across the site." 
+    tip: `THE PILLARS OF INTUITIVE NAVIGATION
+• Discoverability: Can the user see where they need to go immediately? If links are buried 3 clicks deep, the IA is failing.
+• Predictability: Does the label "Resources" lead to white papers (expected) or a form (unexpected)? Labels should be literal.
+• Consistency: Navigation elements must stay in the same place and style across the entire experience.`, 
+    good: "Navigation is clear and follows standard user mental models." 
   },
   { 
     q: "Mobile Responsiveness: Is the platform optimized?", 
-    tip: `IMPROVEMENT PLAN:
-• The "Fold" Rule: Keep the Headline and CTA visible without scrolling.
-• Performance: Compress images for 4G speeds; avoid 15-second load times.
-• UX Targets: Use 44x44px tap targets to avoid "fat finger" errors and use single-column inputs for cleaner scrolling.`, 
-    good: "Superior mobile experience. Tap targets are appropriately sized and layouts adapt perfectly." 
+    tip: `FOR THE WEBSITE/LANDING PAGE
+• The "Fold" Rule: Ensure the Headline + CTA button are both visible without scrolling.
+• Asset Weight: Compress images/videos specifically for mobile.
+
+FOR THE SAAS PRODUCT (APP)
+• Tap Targets: All buttons/links must be at least 44x44 pixels.
+• Keyboard Adaptation: Ensure the "Sign Up" or "Save" button stays above the software keyboard.
+• Single-Column Inputs: Never use side-by-side input fields on mobile; it causes erratic scrolling.`, 
+    good: "The mobile experience is fluid and appropriately scaled for touch interaction." 
   },
   { 
     q: "Visual Authority: Does the design build trust?", 
-    tip: `IMPROVEMENT PLAN:
-• Design System: A unified system (consistent icons, spacing, and buttons) signals professional maturity.
-• Consistency: Ensure your visual language remains identical from the landing page to the deepest app setting.`, 
-    good: "Premium identity. Your visual consistency signals a professional and reliable organization." 
+    tip: `A unified design system (consistent icons, spacing, and buttons) signals that the organization is professional and "has its act together."`, 
+    good: "Visuals are consistent and professional, building immediate authority with the user." 
   }
 ];
 
@@ -110,7 +118,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const btn = document.getElementById("submitBtn");
   btn.disabled = true; 
-  btn.innerText = "Analyzing Patterns...";
+  btn.innerText = "Analyzing UX Patterns...";
 
   let score = 0; 
   let breakdownHTML = "";
@@ -121,27 +129,26 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
     
     let isGood = val === 1;
     let badgeClass = isGood ? 'badge-green' : 'badge-red';
-    let statusLabel = isGood ? '✓ OPTIMAL' : '⚠ NEEDS ATTENTION';
+    let statusLabel = isGood ? '✓ OPTIMAL' : '⚠ ACTION REQUIRED';
     let feedback = isGood ? item.good : item.tip;
 
     breakdownHTML += `
       <div class="result-item">
-        <div style="font-weight:800; font-size:14px; text-transform:uppercase; color:#666;">${item.q.split(':')[0]}</div>
-        <div class="badge ${badgeClass}"><strong>${statusLabel}</strong>\n${feedback}</div>
+        <div style="font-weight:800; font-size:12px; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px;">${item.q.split(':')[0]}</div>
+        <div class="badge ${badgeClass}"><span class="tip-heading">${statusLabel}</span>${feedback}</div>
       </div>`;
   });
 
-  const finalScorePercentage = Math.round((score / 4) * 100) + "%";
+  const finalScore = Math.round((score / 4) * 100) + "%";
 
-  // Simulate submission and show results
   setTimeout(() => {
     document.getElementById("formWrapper").style.display = "none";
     const rBox = document.getElementById("resultBox");
     rBox.style.display = "block";
     rBox.innerHTML = `
       <div class="score-banner">
-        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">UX Audit Score</p>
-        <h2 style="font-size:72px; margin:0; letter-spacing:-3px;">${finalScorePercentage}</h2>
+        <p style="text-transform:uppercase; font-size:11px; font-weight:700; opacity:0.6; letter-spacing:1px; margin-bottom:8px;">UX Health Score</p>
+        <h2 style="font-size:72px; margin:0; letter-spacing:-3px;">${finalScore}</h2>
       </div>
       ${breakdownHTML}
       <div style="text-align:center; margin-top:40px;">
@@ -150,7 +157,7 @@ document.getElementById("auditForm").addEventListener("submit", function(e) {
       </div>
     `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 1200);
+  }, 1000);
 });
 </script>
 </body>
